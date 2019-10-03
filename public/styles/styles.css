@@ -1,3 +1,31 @@
 .list-group-item {
   line-height: 2.5;
 }
+/* Landing Page/index.handlebars */
+#home {
+  position: absolute;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/img/Beer-Friends.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.landing-main {
+  background-color: #9b776061;
+}
+.input-field.col label {
+  left: 1.75rem;
+  color: white;
+}
+.landing-search {
+  padding: 1rem;
+}
+
+/* Main.handlebars */
+.page-footer {
+  position: absolute;
+  width: 100vw;
+  bottom: -32vh;
+  overflow: hidden;
+}
