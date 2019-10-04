@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes)=> {
             validate:{notEmpty: true}},
         role: {type: DataTypes.STRING, len: [1,75], allowNull: false, 
             validate:{notEmpty: true}},
-        online: {type: DataTypes.BOOLEAN},
+        online: {type: DataTypes.BOOLEAN, defaultValue: 0},
         password: {type: DataTypes.STRING, len: [1,2000], allowNull: false,
             validate:{notEmpty: true}},
         salt: {type: DataTypes.STRING, allowNull: false,

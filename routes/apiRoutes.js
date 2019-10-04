@@ -28,8 +28,10 @@ module.exports = function(app) {
     let newUser = {
       username: req.body.userName,
       password: req.body.password,
+      email: req.body.email,
       role: 'guest'
     };
+    controlFunctions.hashIt(newUser);
 
 
   });
