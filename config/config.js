@@ -3,7 +3,7 @@ module.exports = {
     "development": {
         "username": "root",
         "password": process.env.sqlPassword,
-        "database": "classact",
+        "database": "project",
         "host": "localhost",
         "dialect": "mysql"
     }
