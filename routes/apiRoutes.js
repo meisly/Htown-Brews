@@ -4,6 +4,7 @@ const controller = require('../controller/controllerFunctions');
 module.exports = function(app) {
   // Get all examples
   let controlFunctions = new controller(db);
+
   app.get("/api/examples", function(req, res) {
     db.Example.findAll({}).then(function(dbExamples) {
       res.json(dbExamples);
@@ -23,4 +24,14 @@ module.exports = function(app) {
       res.json(dbExample);
     });
   });
+  app.post("api/newUser", (req,res)=>{
+    let newUser = {
+      username: req.body.userName,
+      password: req.body.password,
+      role: 'guest'
+    };
+
+
+  });
 };
+
