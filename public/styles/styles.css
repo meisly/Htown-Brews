@@ -29,3 +29,20 @@
   bottom: -32vh;
   overflow: hidden;
 }
+
+.signupbox{
+  background-color: antiquewhite;
+  width:35%;
+}
+
+.createaccounttxt {
+  margin-top: 0px;
+}
+
+.entireform {
+  margin-bottom: 0px;
+}
+
+.signupbutton{
+  background-color: black !important;
+}
