@@ -1,8 +1,9 @@
 
 require("dotenv").config();
-var test = require('./config/config');
-var express = require("express");
-var exphbs = require("express-handlebars");
+let test = require('./config/config');
+const express = require("express");
+const exphbs = require("express-handlebars");
+const session = require('express-session');
 
 var db = require("./models");
 
@@ -13,6 +14,7 @@ var PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
 
 // Handlebars
 app.engine(
@@ -34,6 +36,8 @@ var syncOptions = { force: false };
 if (process.env.NODE_ENV === "test") {
   syncOptions.force = true;
 }
+
+ 
 
 // Starting the server, syncing our models ------------------------------------/
 db.sequelize.sync(syncOptions).then(function() {
