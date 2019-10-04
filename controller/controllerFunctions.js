@@ -1,4 +1,3 @@
-module.exports = function controller(db){
     this.searchBeers = async (keyword, callback) =>{
         results = await db.beers.findall({where: {
                 beer_name:{$like: keyword}
@@ -6,14 +5,6 @@ module.exports = function controller(db){
         });
         console.table(results);
     },
-    this.addBeer = async (beerObj,callback) =>{
-        let results = await db.beers.create({
-            beer_name: beerObj.name,
-            beer_type: beerObj.type,
-            beer_description: beerObj.beer_description
-        });
-    },
-    this.calcRatings = async () =>{
         /*will calculate the average rating of the beer by taking the review scores from the reviews table
         and calcing their average*/ 
     },
