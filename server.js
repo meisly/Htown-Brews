@@ -1,4 +1,6 @@
+
 require("dotenv").config();
+var test = require('./config/config');
 var express = require("express");
 var exphbs = require("express-handlebars");
 
