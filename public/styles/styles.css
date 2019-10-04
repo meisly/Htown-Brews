@@ -1,6 +1,9 @@
 .list-group-item {
   line-height: 2.5;
 }
+*{
+  box-sizing: border-box;
+}
 /* Landing Page/index.handlebars */
 #home {
   position: absolute;
@@ -25,7 +28,7 @@
 /* Main.handlebars */
 .page-footer {
   position: absolute;
-  width: 100vw;
+  width: 100%;
   bottom: -32vh;
   overflow: hidden;
 }
