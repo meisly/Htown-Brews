@@ -6,6 +6,8 @@ module.exports = function(sequelize, DataTypes) {
       validate:{ notEmpty: true}},
     beer_description: {type: DataTypes.STRING, len: [1,2000], allowNull: false,
       validate:{ notEmpty: true}},
+    brewrey: {type: DataTypes.STRING, len: [1,75], allowNull: false,
+      validate: {notEmpty: true}},
     avg_rating:{type: DataTypes.INTEGER, defaultValue: 5},
     createdAt: {type: DataTypes.DATE, defaultValue: sequelize.literal('CURRENT_TIMESTAMP')},
     updatedAt:{type:DataTypes.DATE, defaultValue: sequelize.literal('CURRENT_TIMESTAMP')}
