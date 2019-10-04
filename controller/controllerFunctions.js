@@ -1,9 +1,10 @@
 module.exports = function controller(db){
     this.searchBeers = async (keyword, callback) =>{
-        return results = await db.beers.findall({where: {
+        results = await db.beers.findall({where: {
                 beer_name:{$like: keyword}
             }
         });
+        console.table(results);
     },
     this.addBeer = async (beerObj,callback) =>{
         let results = await db.beers.create({
