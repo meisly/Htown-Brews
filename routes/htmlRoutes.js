@@ -1,5 +1,5 @@
 var db = require("../models");
-
+const controller = require('../controller/controllerFunctions');
 module.exports = function(app) {
   // Load index page
   // Access the session as req.session
@@ -38,6 +38,7 @@ module.exports = function(app) {
     ) {
       res.render("example", {
         example: dbExample
+
       });
     });
   });
