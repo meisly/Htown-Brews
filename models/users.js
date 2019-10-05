@@ -1,34 +1,47 @@
 module.exports = (sequelize, DataTypes) => {
   const users = sequelize.define("users", {
-    username: {
+    userName: {
       type: DataTypes.STRING,
       len: [1, 75],
       allowNull: false,
-      validate: { notEmpty: true }
+      validate: {
+        notEmpty: true
+      }
     },
     email: {
       type: DataTypes.STRING,
       len: [1, 75],
       allowNull: false,
-      validate: { notEmpty: true }
+      validate: {
+        notEmpty: true
+      }
     },
     role: {
       type: DataTypes.STRING,
       len: [1, 75],
       allowNull: false,
-      validate: { notEmpty: true }
+      validate: {
+        notEmpty: true
+      }
     },
-    online: { type: DataTypes.BOOLEAN, defaultValue: 0 },
+    online: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
+    },
     password: {
       type: DataTypes.STRING,
       len: [1, 2000],
       allowNull: false,
-      validate: { notEmpty: true }
+      validate: {
+        notEmpty: true
+      }
     },
     salt: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: { notEmpty: true }
+      validate: {
+        notEmpty: true
+      }
     },
     createdAt: {
       type: DataTypes.DATE,

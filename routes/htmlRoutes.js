@@ -18,13 +18,8 @@ module.exports = function (app) {
   });
 
   // Signup Page
-  app.get("/signup", function (req, res) {
-    db.Example.findAll({}).then(function (dbExamples) {
-      res.render("signup", {
-        msg: "Create an Account!",
-        examples: dbExamples
-      });
-    });
+  app.get("/signup", function(req, res) {
+    res.render("signup");
   });
 
   // Load example page and pass in an example by id

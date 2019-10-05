@@ -1,4 +1,8 @@
 const db = require("../models");
+<<<<<<< HEAD
+=======
+const controller = require("../controller/controllerFunctions");
+>>>>>>> 1f24223bd7ac627444c5f240264f6883fa4dab7a
 
 const controller = require("./controller/controllerFunctions");
 
@@ -6,6 +10,7 @@ module.exports = function (app) {
   // Get all examples
   let controlFunctions = new controller(db);
 
+<<<<<<< HEAD
   app.get("/api", function (req, res) {
     db.beers
       .findAll({
@@ -35,3 +40,16 @@ module.exports = function (app) {
     });
   });
 };
+=======
+  app.post("/login", (req, res) => {
+    
+    controlFunctions.login(req, res);
+  },
+  app.post("api/newUser", (req, res) => {
+    
+    controlFunctions.newUserQuery(req,res);
+  },
+};
+
+
+>>>>>>> 1f24223bd7ac627444c5f240264f6883fa4dab7a
