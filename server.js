@@ -3,7 +3,7 @@ require("dotenv").config();
 let test = require('./config/config');
 const express = require("express");
 const exphbs = require("express-handlebars");
-const session = require('express-session')
+const session = require('express-session');
 
 var db = require("./models");
 
