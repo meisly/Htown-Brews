@@ -3,7 +3,8 @@ const controller = require("./controller/controllerFunctions");
 module.exports = function (app) {
   // Load index page
   // Access the session as req.session
-  app.get("/", function (req, res, next) {
+
+  app.get("/", function (req, res) {
     if (req.session.userId) {
       res.render("index", {
         msg: "Welcome to H-town Brews!",
