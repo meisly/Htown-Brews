@@ -1,6 +1,7 @@
 const db = require("../models");
 const controller = require('../controller/controllerFunctions');
 
+
 module.exports = function(app) {
   // Get all examples
   let controlFunctions = new controller(db);
@@ -32,8 +33,6 @@ module.exports = function(app) {
       role: 'guest'
     };
     controlFunctions.hashIt(newUser);
-
-
   });
 };
 
