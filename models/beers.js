@@ -1,6 +1,6 @@
-module.exports = (sequelize, DataTypes)=> {
+module.exports = (sequelize, DataTypes) => {
   const beers = sequelize.define("beers", {
-    beer_name: {
+    beerName: {
       type: DataTypes.STRING,
       len: [1, 75],
       allowNull: false,
@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes)=> {
         notEmpty: true
       }
     },
-    beer_type: {
+    beerType: {
       type: DataTypes.STRING,
       len: [1, 25],
       allowNull: false,
@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes)=> {
         notEmpty: true
       }
     },
-    beer_description: {
+    beerDescription: {
       type: DataTypes.STRING,
       len: [1, 2000],
       allowNull: false,
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes)=> {
         notEmpty: true
       }
     },
-    avg_rating: {
+    avgRating: {
       type: DataTypes.INTEGER,
       defaultValue: 5
     },

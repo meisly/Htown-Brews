@@ -1,9 +1,11 @@
 var db = require("../models");
-const controller = require('../controller/controllerFunctions');
+const controller = require("../controller/controllerFunctions");
 module.exports = function(app) {
   // Load index page
   // Access the session as req.session
+  let controllerFunctions = new controller(db);
   app.get("/", function(req, res, next) {
+    
     if (req.session.userId) {
       db.beers.findAll({}).then(function(dbExamples) {
         res.render("index", {
@@ -23,12 +25,7 @@ module.exports = function(app) {
 
   // Signup Page
   app.get("/signup", function(req, res) {
-    db.Example.findAll({}).then(function(dbExamples) {
-      res.render("signup", {
-        msg: "Create an Account!",
-        examples: dbExamples
-      });
-    });
+    res.render("signup");
   });
 
   // Load example page and pass in an example by id
@@ -38,7 +35,6 @@ module.exports = function(app) {
     ) {
       res.render("example", {
         example: dbExample
-
       });
     });
   });

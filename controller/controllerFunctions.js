@@ -1,3 +1,4 @@
+ 
 module.exports = function (db) {
     this.searchBeers = async (keyword, callback) => {
         results = await db.beers.findall({
@@ -15,14 +16,28 @@ module.exports = function (db) {
     this.addReview = async (reviewObj) => {
         //add review to table
         let result = await db.reviews.create({
-            review_rating: reviewObj.rating,
-            review_paragraph: reviewObj.paragraph
+            reviewRating: reviewObj.rating,
+            reviewParagraph: reviewObj.paragraph
         });
     },
     this.userReviews = async (user) => {
         //lists reviews where review_author = user
     },
 //***************************************************password validation**************************************************** */
+    this.getSalt = async(username) =>{
+        let result = db.users.findOne({
+            where:{userName: username},
+            attributes:{salt}
+        });
+        if(result.length){
+            console.table(result);
+            return result[0];
+        }
+        else{
+            console.log('err retrying');
+            this.getSalt(username);
+        }
+    },
     this.genRandomString = (length) => { //makes the hash salt
         return crypto.randomBytes(Math.ceil(length / 2))
           .toString('hex') /** convert to hexadecimal format */
@@ -37,9 +52,17 @@ module.exports = function (db) {
             passwordHash:value
         };
     },
-    this.hashIt = async (newUser) => { //hashes the password then stores user values and salt in DB
+    this.newUserQuery = async (req, res) => { //hashes the password then stores user values and salt in DB
+        let newUser = {
+            username: req.body.userName,
+            password: req.body.password,
+            email: req.body.email,
+            role: "guest"
+        };
+        
         let Salt = this.genRandomString(16); /** Gives us salt of length 16 */
         let passwordData = this.sha512(newUser.username,newUser.password, Salt);
+
         let result = await db.users.create({
             username: newUser.username,
             email: newUser.email,
@@ -47,12 +70,67 @@ module.exports = function (db) {
             password: passwordData,
             salt: Salt
         });
+
         if(result){
-            console.log('user added');
+            res.json(result);
         }else{
-            console.log('err');
+            console.log("err");
         }
         
-    }
+    },
+/*****************************************************Check Sessions*****************************************************/
+    this.login = async (req, res)=>{
+        const sess = req.session;
+        const post = req.body;
+        
+        let userSalt = getSalt(post.userName);
+        let name= post.userName;
+        let pass= sha512(post.password,userSalt);
+        let results = db.users.findOne({
+            where:
+            {
+                userName: name,
+                password: pass            
+            }
+        });
 
+        if(results.length){
+            sess.userId = results[0].id;
+            sess.user = results[0];
+            console.log(results[0].id);
+            let userData = {
+              user: req.session.user,
+              userID: req.session.userId
+            };
+            if (userId === null) {
+              res.redirect("/",{
+                msg: "Invalid Login",
+                user: req.session.userName
+              });
+              return;
+            } else {
+              this.dashboard(req, res, userData);
+            }
+         }
+         else{
+            res.render("/",{
+                msg: "Wrong Credentials",
+                user: req.session.userName
+              });
+         }        
+    },
+    this.dashboard = async (req, res, data) =>{
+	   let result = db.users.findOne({
+           where: {id: data.userId}
+       });
+       if (result.length) {
+        res.render("/",{
+            msg: "Welcome to H-town Brews!",
+            user: data.user
+          }); 
+       } else {
+           console.log('ERR');
+       }
+
+    }
 }
