@@ -52,7 +52,7 @@ module.exports = function (db) {
             passwordHash:value
         };
     },
-    this.newUserQuery = async (req, res) => { //hashes the password then stores user values and salt in DB
+    this.newUserQuery = async (req, res,callback) => { //hashes the password then stores user values and salt in DB
         let newUser = {
             username: req.body.userName,
             password: req.body.password,
@@ -72,21 +72,21 @@ module.exports = function (db) {
         });
 
         if(result){
-            res.json(result);
+            callback(result);
         }else{
             console.log("err");
         }
         
     },
 /*****************************************************Check Sessions*****************************************************/
-    this.login = async (req, res)=>{
+    this.login = async (req, callback)=>{
         const sess = req.session;
         const post = req.body;
         
-        let userSalt = getSalt(post.userName);
+        let userSalt = this.getSalt(post.userName);
         let name= post.userName;
-        let pass= sha512(post.password,userSalt);
-        let results = db.users.findOne({
+        let pass= this.sha512(post.password,userSalt);
+        let results = await db.users.findOne({
             where:
             {
                 userName: name,
@@ -103,31 +103,21 @@ module.exports = function (db) {
               userID: req.session.userId
             };
             if (userId === null) {
-              res.redirect("/",{
-                msg: "Invalid Login",
-                user: req.session.userName
-              });
+                console.log('error');
               return;
             } else {
-              this.dashboard(req, res, userData);
+                callback(userData);
             }
          }
-         else{
-            res.render("/",{
-                msg: "Wrong Credentials",
-                user: req.session.userName
-              });
-         }        
+             
     },
-    this.dashboard = async (req, res, data) =>{
-	   let result = db.users.findOne({
+    this.dashboard = async (req, res, data, callback) =>{
+	   let result = await db.users.findOne({
            where: {id: data.userId}
        });
        if (result.length) {
-        res.render("/",{
-            msg: "Welcome to H-town Brews!",
-            user: data.user
-          }); 
+           callback(result);
+        
        } else {
            console.log('ERR');
        }

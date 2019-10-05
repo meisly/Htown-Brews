@@ -37,9 +37,26 @@ module.exports = function(app) {
     });
   });
   app.post("/login", (req, res) => {
-    controlFunctions.login(req, res);
+    controlFunctions.login(req, userData => {
+      controlFunctions.dashboard(req, userData, result => {
+        if (result) {
+          res.render("/", {
+            msg: "Welcome to H-town Brews!",
+            user: data.user
+          });
+        } else {
+          console.log("failed to validate");
+          res.render("/", {
+            msg: "Welcome to H-town Brews!",
+            user: "guest"
+          });
+        }
+      });
+    });
   });
   app.post("api/newUser", (req, res) => {
-    controlFunctions.newUserQuery(req, res);
+    controlFunctions.newUserQuery(req, res, result => {
+      res.json(result);
+    });
   });
 };
