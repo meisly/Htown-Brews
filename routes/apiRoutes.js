@@ -1,17 +1,12 @@
 const db = require("../models");
-<<<<<<< HEAD
-=======
-const controller = require("../controller/controllerFunctions");
->>>>>>> 1f24223bd7ac627444c5f240264f6883fa4dab7a
 
 const controller = require("./controller/controllerFunctions");
 
-module.exports = function (app) {
+module.exports = function(app) {
   // Get all examples
   let controlFunctions = new controller(db);
 
-<<<<<<< HEAD
-  app.get("/api", function (req, res) {
+  app.get("/api", function(req, res) {
     db.beers
       .findAll({
         attributes: ["beer_name", "beer_type", "brewrey"]
@@ -27,29 +22,41 @@ module.exports = function (app) {
       });
   });
   // Create a new example
-  app.post("/api/examples", function (req, res) {
-    db.Example.create(req.body).then(function (dbExample) {
+  app.post("/api/examples", function(req, res) {
+    db.Example.create(req.body).then(function(dbExample) {
       res.json(dbExample);
     });
   });
 
   // Delete an example by id
-  app.delete("/api/examples/:id", function (req, res) {
-    db.Example.destroy({ where: { id: req.params.id } }).then(function (dbExample) {
+  app.delete("/api/examples/:id", function(req, res) {
+    db.Example.destroy({ where: { id: req.params.id } }).then(function(
+      dbExample
+    ) {
       res.json(dbExample);
     });
   });
-};
-=======
   app.post("/login", (req, res) => {
-    
-    controlFunctions.login(req, res);
-  },
+    controlFunctions.login(req, userData => {
+      controlFunctions.dashboard(req, userData, result => {
+        if (result) {
+          res.render("/", {
+            msg: "Welcome to H-town Brews!",
+            user: data.user
+          });
+        } else {
+          console.log("failed to validate");
+          res.render("/", {
+            msg: "Welcome to H-town Brews!",
+            user: "guest"
+          });
+        }
+      });
+    });
+  });
   app.post("api/newUser", (req, res) => {
-    
-    controlFunctions.newUserQuery(req,res);
-  },
+    controlFunctions.newUserQuery(req, res, result => {
+      res.json(result);
+    });
+  });
 };
-
-
->>>>>>> 1f24223bd7ac627444c5f240264f6883fa4dab7a
