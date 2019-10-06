@@ -1,30 +1,29 @@
 module.exports = function(db) {
   this.searchBeers = async (keyword, callback) => {
-    const results = await db.beers.findall({
+    results = await db.beers.findall({
       where: {
-        // eslint-disable-next-line camelcase
         beer_name: { $like: keyword }
       }
     });
     console.table(results);
   };
   /*will calculate the average rating of the beer by taking the review scores from the reviews table
-    and calcing their average*/
-  this.beerReviews = async (beerName) => {
+  and calcing their average*/
+  this.beerReviews = async beerName => {
     //lists reviews where review_beer = beerName
   };
-  this.addReview = async (reviewObj) => {
+  this.addReview = async reviewObj => {
     //add review to table
     let result = await db.reviews.create({
       reviewRating: reviewObj.rating,
       reviewParagraph: reviewObj.paragraph
     });
   };
-  this.userReviews = async (user) => {
+  this.userReviews = async user => {
     //lists reviews where review_author = user
   };
   //***************************************************password validation**************************************************** */
-  this.getSalt = async (username) => {
+  this.getSalt = async username => {
     let result = db.users.findOne({
       where: { userName: username },
       attributes: { salt }
@@ -37,14 +36,18 @@ module.exports = function(db) {
       this.getSalt(username);
     }
   };
-  this.genRandomString = length => { //makes the hash salt
-    // eslint-disable-next-line prettier/prettier
-    return crypto.randomBytes(Math.ceil(length / 2))
+  this.genRandomString = length => {
+    //makes the hash salt
+    return crypto
+      .randomBytes(Math.ceil(length / 2))
       .toString("hex") /** convert to hexadecimal format */
       .slice(0, length); /** return required number of characters */
   };
   this.sha512 = (password, salt) => {
-    let hash = crypto.createHmac("sha512", salt); /** Hashing algorithm sha512 */
+    let hash = crypto.createHmac(
+      "sha512",
+      salt
+    ); /** Hashing algorithm sha512 */
     hash.update(password);
     let value = hash.digest("hex");
     return {
@@ -52,7 +55,8 @@ module.exports = function(db) {
       passwordHash: value
     };
   };
-  this.newUserQuery = async (req, res) => {//hashes the password then stores user values and salt in DB
+  this.newUserQuery = async (req, res, callback) => {
+    //hashes the password then stores user values and salt in DB
     let newUser = {
       username: req.body.userName,
       password: req.body.password,
@@ -63,34 +67,52 @@ module.exports = function(db) {
     let Salt = this.genRandomString(16); /** Gives us salt of length 16 */
     let passwordData = this.sha512(newUser.username, newUser.password, Salt);
 
-    let result = await db.users.create({
-      username: newUser.username,
-      email: newUser.email,
-      role: "guest",
-      password: passwordData,
-      salt: Salt
-    });
-
     if (result) {
-      res.json(result);
+      callback(result);
     } else {
       console.log("err");
     }
   };
   /*****************************************************Check Sessions*****************************************************/
-  this.login = async (req, res) => {
+  this.login = async (req, callback) => {
     const sess = req.session;
     const post = req.body;
 
-    let userSalt = getSalt(post.userName);
+    let userSalt = this.getSalt(post.userName);
     let name = post.userName;
-    let pass = sha512(post.password, userSalt);
-    let results = db.users.findOne({
+    let pass = this.sha512(post.password, userSalt);
+    let results = await db.users.findOne({
       where: {
         userName: name,
         password: pass
       }
     });
+
+    if (results.length) {
+      sess.userId = results[0].id;
+      sess.user = results[0];
+      console.log(results[0].id);
+      let userData = {
+        user: req.session.user,
+        userID: req.session.userId
+      };
+      if (userId === null) {
+        console.log("error");
+        return;
+      } else {
+        callback(userData);
+      }
+    }
+  };
+  this.dashboard = async (req, res, data, callback) => {
+    let result = await db.users.findOne({
+      where: { id: data.userId }
+    });
+    if (result.length) {
+      callback(result);
+    } else {
+      console.log("ERR");
+    }
 
     if (results.length) {
       sess.userId = results[0].id;
