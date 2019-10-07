@@ -1,5 +1,4 @@
-
-module.exports = function (db) {
+module.exports = function(db) {
   this.searchBeers = async (keyword, callback) => {
     results = await db.beers.findall({
       where: {
@@ -16,7 +15,6 @@ module.exports = function (db) {
       }
     });
     callback(results);
-
   };
   /*will calculate the average rating of the beer by taking the review scores from the reviews table
   and calcing their average*/
@@ -38,13 +36,25 @@ module.exports = function (db) {
       userId: reviewObj.userId
     });
     callback(result);
-
   };
-  this.userReviews = async (user) => {
+  this.findReviewAuthor = async (authorId, callback) => {
+    let result = await db.users.findOne({
+      where: {
+        id: authorId
+      },
+      attributes: ["username"]
+    });
+    if (result.length) {
+      callback(result);
+    } else {
+      callback("404");
+    }
+  };
+  this.userReviews = async user => {
     //lists reviews where review_author = user
   };
   //***************************************************password validation**************************************************** */
-  this.getSalt = async (username) => {
+  this.getSalt = async username => {
     let result = db.users.findOne({
       where: { userName: username },
       attributes: { salt }
@@ -52,27 +62,32 @@ module.exports = function (db) {
     if (result.length) {
       console.table(result);
       return result[0];
-    }
-    else {
-      console.log('err retrying');
+    } else {
+      console.log("err retrying");
       this.getSalt(username);
     }
   };
-  this.genRandomString = (length) => { //makes the hash salt
-    return crypto.randomBytes(Math.ceil(length / 2))
-      .toString('hex') /** convert to hexadecimal format */
+  this.genRandomString = length => {
+    //makes the hash salt
+    return crypto
+      .randomBytes(Math.ceil(length / 2))
+      .toString("hex") /** convert to hexadecimal format */
       .slice(0, length); /** return required number of characters */
   };
   this.sha512 = (password, salt) => {
-    let hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
+    let hash = crypto.createHmac(
+      "sha512",
+      salt
+    ); /** Hashing algorithm sha512 */
     hash.update(password);
-    let value = hash.digest('hex');
+    let value = hash.digest("hex");
     return {
       salt: salt,
       passwordHash: value
     };
   };
-  this.newUserQuery = async (req, res, callback) => { //hashes the password then stores user values and salt in DB
+  this.newUserQuery = async (req, res, callback) => {
+    //hashes the password then stores user values and salt in DB
     let newUser = {
       username: req.body.userName,
       password: req.body.password,

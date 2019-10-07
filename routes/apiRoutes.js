@@ -68,8 +68,13 @@ module.exports = function(app) {
     });
   });
   //grab all reviews by the id of a specific beer
-  app.get("/api/review:id", (req, res) => {
+  app.get("/api/review/:id", (req, res) => {
     controlFunctions.beerReviews(req.params.id, result => {
+      res.json(result);
+    });
+  });
+  app.get("/api/user/:id", (req, res) => {
+    controlFunctions.findReviewAuthor(req.params.id, result => {
       res.json(result);
     });
   });
