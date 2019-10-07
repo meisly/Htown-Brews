@@ -14,5 +14,12 @@ $(document).ready(function () {
     });
   });
 
+<<<<<<< Updated upstream
   $("")
+=======
+
+>>>>>>> Stashed changes
 });
+function beerQuery(id){
+  $.get(`api/review/${id}`
+}
