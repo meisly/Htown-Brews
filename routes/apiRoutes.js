@@ -73,6 +73,11 @@ module.exports = function(app) {
       res.json(result);
     });
   });
+  app.get("/api/user/:id", (req, res) => {
+    controlFunctions.findReviewAuthor(req.params.id, result => {
+      res.json(result);
+    });
+  });
 
   // Delete an example by id
   app.delete("/api/examples/:id", function(req, res) {
