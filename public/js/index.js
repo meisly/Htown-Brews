@@ -7,12 +7,14 @@ $(document).ready(function () {
     $("input.autocomplete").autocomplete({
       data: results,
       limit: 5,
-      onAutocomplete: function() {
+      onAutocomplete: function () {
         let searchTerm = $("#autocomplete-input").val();
         window.location.replace("/results/" + searchTerm);
       }
     });
   });
-
-  $("")
+  $("#main-search").on("click", () => {
+    let searchTerm = $("#autocomplete-input").val();
+    window.location.replace("/results/" + searchTerm);
+  });
 });
