@@ -47,10 +47,6 @@ module.exports = function(app) {
         }
       });
   });
-  // Create a new example
-  app.post("/api/examples", function(req, res) {
-    db.Example.create(req.body).then(function(dbExample) {
-      res.json(dbExample);
   // post new revies
   app.post("/api/review", (req, res) => {
     /*takes user from sessions and and rating, paragraph, and beer id from front-end elements
@@ -104,6 +100,7 @@ module.exports = function(app) {
       });
     });
   });
+
   app.post("api/newUser", (req, res) => {
     controlFunctions.newUserQuery(req, res, result => {
       res.json(result);

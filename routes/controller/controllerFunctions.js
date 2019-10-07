@@ -1,87 +1,84 @@
- 
+
 module.exports = function (db) {
-    this.searchBeers = async (keyword,callback) => {
-        results = await db.beers.findall({
-            where: {
-                beer_name: { $like: keyword }
-            }
-        });
-        callback(results);
-        console.table(results);
-    };
-    this.beerById = async (beerId, callback) => {
-        results = await db.beers.findOne({
-            where: {
-                id: beerID
-            }
-        });
-        callback(results);
+  this.searchBeers = async (keyword, callback) => {
+    results = await db.beers.findall({
+      where: {
+        beer_name: { $like: keyword }
+      }
+    });
+    callback(results);
+    console.table(results);
+  };
+  this.beerById = async (beerId, callback) => {
+    results = await db.beers.findOne({
+      where: {
+        id: beerId
+      }
+    });
+    callback(results);
 
-    };
-        /*will calculate the average rating of the beer by taking the review scores from the reviews table
-        and calcing their average*/
-    this.beerReviews = async (beerId, callback) => {
-        //lists reviews by beer id
-        result = await db.reviews.findall({
-            where: {
-                beerId: beerId
-            }
-        });
-        callback(result);
-    };
-    this.addReview = async (reviewObj, callback) => {
-        //add review to table
-        let result = await db.reviews.create({
-            reviewRating: reviewObj.rating,
-            reviewParagraph: reviewObj.paragraph,
-            beerId: reviewObj.beerId,
-            userId: reviewObj.userId
-        });
-        callback(result);
+  };
+  /*will calculate the average rating of the beer by taking the review scores from the reviews table
+  and calcing their average*/
+  this.beerReviews = async (beerId, callback) => {
+    //lists reviews by beer id
+    result = await db.reviews.findall({
+      where: {
+        beerId: beerId
+      }
+    });
+    callback(result);
+  };
+  this.addReview = async (reviewObj, callback) => {
+    //add review to table
+    let result = await db.reviews.create({
+      reviewRating: reviewObj.rating,
+      reviewParagraph: reviewObj.paragraph,
+      beerId: reviewObj.beerId,
+      userId: reviewObj.userId
+    });
+    callback(result);
 
+  };
+  this.userReviews = async (user) => {
+    //lists reviews where review_author = user
+  };
+  //***************************************************password validation**************************************************** */
+  this.getSalt = async (username) => {
+    let result = db.users.findOne({
+      where: { userName: username },
+      attributes: { salt }
+    });
+    if (result.length) {
+      console.table(result);
+      return result[0];
+    }
+    else {
+      console.log('err retrying');
+      this.getSalt(username);
+    }
+  };
+  this.genRandomString = (length) => { //makes the hash salt
+    return crypto.randomBytes(Math.ceil(length / 2))
+      .toString('hex') /** convert to hexadecimal format */
+      .slice(0, length); /** return required number of characters */
+  };
+  this.sha512 = (password, salt) => {
+    let hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
+    hash.update(password);
+    let value = hash.digest('hex');
+    return {
+      salt: salt,
+      passwordHash: value
     };
-    this.userReviews = async (user) => {
-        //lists reviews where review_author = user
+  };
+  this.newUserQuery = async (req, res, callback) => { //hashes the password then stores user values and salt in DB
+    let newUser = {
+      username: req.body.userName,
+      password: req.body.password,
+      email: req.body.email,
+      role: "guest"
     };
-//***************************************************password validation**************************************************** */
-    this.getSalt = async(username) =>{
-        let result = db.users.findOne({
-            where:{userName: username},
-            attributes:{salt}
-        });
-        if(result.length){
-            console.table(result);
-            return result[0];
-        }
-        else{
-            console.log('err retrying');
-            this.getSalt(username);
-        }
-    };
-    this.genRandomString = (length) => { //makes the hash salt
-        return crypto.randomBytes(Math.ceil(length / 2))
-          .toString('hex') /** convert to hexadecimal format */
-          .slice(0, length); /** return required number of characters */
-    };
-    this.sha512 = (password, salt)=>{
-        let hash = crypto.createHmac('sha512', salt); /** Hashing algorithm sha512 */
-        hash.update(password);
-        let value = hash.digest('hex');
-        return {
-            salt:salt,
-            passwordHash:value
-        };
-    };
-    this.newUserQuery = async (req, res,callback) => { //hashes the password then stores user values and salt in DB
-        let newUser = {
-            username: req.body.userName,
-            password: req.body.password,
-            email: req.body.email,
-            role: "guest"
-        };
-        
-        let Salt = this.genRandomString(16); /** Gives us salt of length 16 */
-        let passwordData = this.sha512(newUser.username,newUser.password, Salt);
 
     let Salt = this.genRandomString(16); /** Gives us salt of length 16 */
     let passwordData = this.sha512(newUser.username, newUser.password, Salt);
