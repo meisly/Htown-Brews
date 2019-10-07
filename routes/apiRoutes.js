@@ -6,6 +6,7 @@ module.exports = function(app) {
   // Get all examples
   let controlFunctions = new controller(db);
 
+  //Gets data for autocomplete
   app.get("/api", function(req, res) {
     db.beers
       .findAll({
@@ -19,6 +20,31 @@ module.exports = function(app) {
           data[`${elem.dataValues.brewrey}`] = null;
         });
         res.json(data);
+      });
+  });
+  // display search results
+  app.get("/results/:searchTerm?", function(req, res) {
+    let search = req.params.searchTerm;
+    db.beers
+      .findAll({
+        where: {
+          [db.Op.or]: [
+            { beer_name: search },
+            { beer_type: search },
+            { brewrey: search }
+          ]
+        }
+      })
+      .then(results => {
+        if (req.session.userId) {
+          res.render("search-results", {
+            data: results
+          });
+        } else {
+          res.render("search-results", {
+            data: results
+          });
+        }
       });
   });
   // Create a new example

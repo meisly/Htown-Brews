@@ -5,15 +5,7 @@
   box-sizing: border-box;
 }
 /* Landing Page/index.handlebars */
-#home {
-  position: absolute;
-  right: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('/img/Beer-Friends.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+
 .landing-main {
   background-color: #9b776061;
 }
@@ -21,18 +13,58 @@
   left: 1.75rem;
   color: white;
 }
+
+.input-field.col:focus input {
+  left: 1.75rem;
+  color: white;
+}
+label.light-txt-input.active.center {
+  color: black;
+  font-size: 1rem;
+}
+.search-btn {
+  position: relative;
+  top: -.3rem;
+  left: -.55rem!important;
+  height: 40px;
+  padding: 0;
+  width: 15.333333%;
+}
+.dark-txt-input input:not(.browser-default):focus:not([readonly]) +label{
+  left: 1.75rem;
+  color: black;
+}
+.dark-txt-input input +label {
+  left: 1.75rem;
+  color: black!important;
+}
 .landing-search {
   padding: 1rem;
 }
 
 /* Main.handlebars */
 .page-footer {
-  position: absolute;
+  position: relative;
   width: 100%;
-  bottom: -32vh;
+  bottom: -40px;
   overflow: hidden;
 }
+.home {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/img/Beer-Friends.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1000;
+}
+.content{
+  min-height: 100vh;
+}
 
+/* SignUp Page */
 .signupbox{
   background-color: antiquewhite;
   width:35%;
@@ -48,4 +80,12 @@
 
 .signupbutton{
   background-color: black !important;
+}
+
+
+/* Search Results */
+@media only screen and (min-width: 0) {
+  .hide-in-small {
+    display: none
+  }
 }
