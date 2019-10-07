@@ -1,24 +1,44 @@
  
 module.exports = function (db) {
-    this.searchBeers = async (keyword, callback) => {
+    this.searchBeers = async (keyword,callback) => {
         results = await db.beers.findall({
             where: {
                 beer_name: { $like: keyword }
             }
         });
+        callback(results);
         console.table(results);
+    },
+    this.beerById = async (beerId, callback) => {
+        results = await db.beers.findOne({
+            where: {
+                id: beerID
+            }
+        });
+        callback(results);
+
     },
         /*will calculate the average rating of the beer by taking the review scores from the reviews table
         and calcing their average*/
-    this.beerReviews = async (beerName) => {
-            //lists reviews where review_beer = beerName
+    this.beerReviews = async (beerId, callback) => {
+        //lists reviews by beer id
+        result = await db.reviews.findall({
+            where: {
+                beerId: beerId
+            }
+        });
+        callback(result);
     },
-    this.addReview = async (reviewObj) => {
+    this.addReview = async (reviewObj, callback) => {
         //add review to table
         let result = await db.reviews.create({
             reviewRating: reviewObj.rating,
-            reviewParagraph: reviewObj.paragraph
+            reviewParagraph: reviewObj.paragraph,
+            beerId: reviewObj.beerId,
+            userId: reviewObj.userId
         });
+        callback(result);
+
     },
     this.userReviews = async (user) => {
         //lists reviews where review_author = user

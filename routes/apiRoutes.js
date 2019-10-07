@@ -21,10 +21,30 @@ module.exports = function(app) {
         res.json(data);
       });
   });
-  // Create a new example
-  app.post("/api/examples", function(req, res) {
-    db.Example.create(req.body).then(function(dbExample) {
-      res.json(dbExample);
+  // post new revies
+  app.post("/api/review", (req, res) => {
+    /*takes user from sessions and and rating, paragraph, and beer id from front-end elements
+    will need a review obj and the beer itself so it can re-render then page I'm thinking passing
+    2 objects as an array 0 being the review info and 1 being the beer info doing this lets us
+    return the user to an updated page of the beer they just reviewed*/
+    let reviewObj = {
+      rating: req.body.reviewAndBeer[0].rating,
+      paragraph: req.body.reviewAndBeer[0].paragraph,
+      userId: req.sessions.userId,
+      beerId: req.body.reviewAndBeer[1].beerId
+    };
+    controlFunctions.addReview(reviewObj, result => {
+      if (result.affectedRows === 0) {
+        res.render("beerReviews", { beer: req.body.reviewAndBeer[1] });
+      } else {
+        res.render("404");
+      }
+    });
+  });
+  //grab all reviews by the id of a specific beer
+  app.get("/api/review:id", (req, res) => {
+    controlFunctions.beerReviews(req.params.id, result => {
+      res.json(result);
     });
   });
 
@@ -42,7 +62,7 @@ module.exports = function(app) {
         if (result) {
           res.render("/", {
             msg: "Welcome to H-town Brews!",
-            user: data.user
+            user: result[0].user
           });
         } else {
           console.log("failed to validate");
