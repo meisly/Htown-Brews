@@ -13,5 +13,8 @@ $(document).ready(function () {
       }
     });
   });
-  $(".collapsible").collapsible();
+  $("#re-search").on("click", () => {
+    let searchTerm = $("#autocomplete-input-small").val();
+    window.location.replace("/results/" + searchTerm);
+  });
 });

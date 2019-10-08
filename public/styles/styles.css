@@ -1,10 +1,38 @@
-.list-group-item {
-  line-height: 2.5;
-}
+/* ########################## UNIVERSAL CLASSES AND STYLES ##########################*/
 *{
   box-sizing: border-box;
 }
-/* Landing Page/index.handlebars */
+.content{
+  min-height: 100vh;
+}
+
+.list-group-item {
+  line-height: 2.5;
+}
+/* ################################ MAIN.HANDLEBARS ################################# */
+
+.page-footer {
+  position: relative;
+  width: 100%;
+  bottom: -40px;
+  overflow: hidden;
+}
+.home {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: url('/img/Beer-Friends.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  z-index: -1000;
+}
+.navbar-btn {
+  background-color: inherit!important;
+}
+
+/* ########################## Landing Page/index.handlebars ########################## */
 
 .landing-main {
   background-color: #9b776061;
@@ -42,29 +70,8 @@ label.light-txt-input.active.center {
   padding: 1rem;
 }
 
-/* Main.handlebars */
-.page-footer {
-  position: relative;
-  width: 100%;
-  bottom: -40px;
-  overflow: hidden;
-}
-.home {
-  position: fixed;
-  top: 0;
-  right: 0;
-  width: 100vw;
-  height: 100vh;
-  background-image: url('/img/Beer-Friends.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  z-index: -1000;
-}
-.content{
-  min-height: 100vh;
-}
 
-/* SignUp Page */
+/* ################################## SignUp Page ################################### */
 .signupbox{
   background-color: antiquewhite;
   width:35%;
@@ -94,7 +101,10 @@ label.light-txt-input.active.center {
 }
 
 
-/* Search Results */
+/* ################################### Search Results ################################### */
+.card.horizontal .card-image .search-result-img {
+  width: 100px;
+}
 @media only screen and (min-width: 0) {
   .hide-in-small {
     display: none

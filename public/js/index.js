@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
   // Materialize code to add data for autocomplete search.
   // Replace Data with our data from beers db
   $(".modal").modal();
@@ -8,7 +8,12 @@ $(document).ready(function() {
   }).then(results => {
     console.log(results);
     $("input.autocomplete").autocomplete({
-      data: results
+      data: results,
+      limit: 5,
+      onAutocomplete: function () {
+        let searchTerm = $("#autocomplete-input").val();
+        window.location.replace("/results/" + searchTerm);
+      }
     });
   });
   $(".modal-trigger").on("click", () => {
@@ -20,14 +25,15 @@ $(document).ready(function() {
   //beerQuery($(".beer-body").data("id")); //will calll on page load and query reviews
 });
 
-function beerQuery(id) {
-  //queries reviews then queries their user in the getReviewsAuthors based on userId
-  $.ajax(`api/review/${id}`, {
-    type: "GET"
-  }).then(results => {
-    console.table(results);
-    results.forEach(index => {
-      getReviewAuthors(index);
+  function beerQuery(id) {
+    //queries reviews then queries their user in the getReviewsAuthors based on userId
+    $.ajax(`api/review/${id}`, {
+      type: "GET"
+    }).then(results => {
+      console.table(results);
+      results.forEach(index => {
+        getReviewAuthors(index);
+      });
     });
   });
 }
