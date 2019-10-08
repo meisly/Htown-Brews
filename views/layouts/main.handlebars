@@ -18,21 +18,40 @@
   <nav class="brown darken-2" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">H-town Brews</a>
       <ul class="right hide-on-med-and-down">
-        <li>
-          <a class="waves-effect waves-light btn modal-trigger navbar-btn" href="#modal">Login
-          </a>
-        </li>
+        <li><a id="#logAccount" href="#login" class="modal-trigger waves-effect waves-light btn navbar-btn"
+            tabindex="-1">Login</a></li>
         <li><a class="waves-effect waves-light btn navbar-btn" href="./signup">Register</a></li>
       </ul>
 
       <ul id="nav-mobile" class="sidenav">
         <li><a href="#">Navbar Link</a></li>
       </ul>
-      <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">person</i></a>
+      <a href="#login" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">person</i></a>
     </div>
   </nav>
-  
+
   <div class="home"></div>
+  <div id="#login" class="modal">
+    <h5 class="modal-close">&#10005;</h5>
+    <div class="modal-content center">
+      <h4>Login</h4>
+      <br>
+      <form action="#">
+        <div class="input-field">
+          <i class="material-icons prefix">person</i>
+          <input type="text" id="name">
+          <label for="name">Username</label>
+        </div>
+        <br>
+        <div class="input-field">
+          <i class="material-icons prefix">lock</i>
+          <input type="password" id="pass">
+          <label for="pass">Password</label>
+        </div>
+        <input type="submit" value="Login" class="btn btn-large modal-login">
+      </form>
+    </div>
+  </div>
 
   {{{body}}}
 
@@ -48,7 +67,7 @@
     </div>
   </footer>
   <!-- Compiled and minified JavaScript -->
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"
     integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script src="/js/main.js"></script>

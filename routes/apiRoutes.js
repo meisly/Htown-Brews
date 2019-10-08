@@ -93,7 +93,7 @@ module.exports = function(app) {
         if (result) {
           res.render("/", {
             msg: "Welcome to H-town Brews!",
-            user: result[0].user
+            user: result.user
           });
         } else {
           console.log("failed to validate");
@@ -106,7 +106,7 @@ module.exports = function(app) {
     });
   });
 
-  app.post("api/newUser", (req, res) => {
+  app.post("/api/newUser", (req, res) => {
     controlFunctions.newUserQuery(req, res, result => {
       res.json(result);
     });
