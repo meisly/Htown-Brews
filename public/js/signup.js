@@ -1,7 +1,6 @@
-$("#signupbutton")
-  .on("click", function(event) {
+$(window).on("load", () => {
+  $("#signupbutton").on("click", function(event) {
     event.preventDefault();
-
     function validateForm() {
       var isValid = true;
       $(".validate").each(function() {
@@ -18,11 +17,11 @@ $("#signupbutton")
         email: $("#useremail").val(),
         password: $("#userpassword").val()
       };
-      $.post("/api/newUser", newUser, function(data) {});
+      $.post("/api/newUser", newUser, function(result) {
+        window.location.href = "/";
+      });
     } else {
       alert("Please fill out all fields!");
     }
-  })
-  .then(function() {
-    window.location.href = "/";
   });
+});

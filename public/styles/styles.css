@@ -88,6 +88,17 @@ label.light-txt-input.active.center {
 .signupbutton{
   background-color: black !important;
 }
+.modal{
+  max-height: 100%;
+  overflow: hidden;
+}
+.modal-close{
+  position: absolute;
+  top: 1%;
+  right: 1%;
+  margin: 0;
+  padding: 0;
+}
 
 
 /* ################################### Search Results ################################### */
