@@ -16,6 +16,10 @@ $(document).ready(function () {
       }
     });
   });
+  $("#main-search").on("click", () => {
+    let searchTerm = $("#autocomplete-input").val();
+    window.location.replace("/results/" + searchTerm)
+  });
   $(".modal-trigger").on("click", () => {
     $(".modal").modal("open");
   });
