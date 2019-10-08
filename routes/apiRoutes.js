@@ -93,7 +93,7 @@ module.exports = function(app) {
         if (result) {
           res.render("/", {
             msg: "Welcome to H-town Brews!",
-            user: result[0].user
+            user: result.user
           });
         } else {
           console.log("failed to validate");

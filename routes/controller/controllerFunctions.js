@@ -1,7 +1,7 @@
 module.exports = function(db) {
   const crypto = require("crypto");
   this.searchBeers = async (keyword, callback) => {
-    results = await db.beers.findall({
+    results = await db.beers.findAll({
       where: {
         beer_name: { $like: keyword }
       }

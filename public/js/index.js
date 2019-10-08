@@ -1,6 +1,8 @@
 $(document).ready(function() {
   // Materialize code to add data for autocomplete search.
   // Replace Data with our data from beers db
+  $(".modal").modal();
+
   $.ajax("api/", {
     type: "GET"
   }).then(results => {
@@ -9,7 +11,13 @@ $(document).ready(function() {
       data: results
     });
   });
-  beerQuery($(".beer-body").data("id")); //will calll on page load and query reviews
+  $(".modal-trigger").on("click", () => {
+    $(".modal").modal("open");
+  });
+  $(".modal-close").on("click", () => {
+    $(".modal").modal("close");
+  });
+  //beerQuery($(".beer-body").data("id")); //will calll on page load and query reviews
 });
 
 function beerQuery(id) {
@@ -33,7 +41,7 @@ function getReviewAuthors(data) {
 }
 function appendReviews(data, reviewAuthor) {
   //creates the review div then appends it
-  let reviewString = `<div class='reviewBlock'><div class='stars'></div>`;
+  let reviewString = "<div class='reviewBlock'><div class='stars'></div>";
   reviewString += `<h2> By: ${reviewAuthor} </h2>`;
   reviewString += `<p> ${data.review_paragraph} </p>`;
   $(reviewString).appendTo(".reviews-list");
