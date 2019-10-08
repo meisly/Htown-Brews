@@ -14,7 +14,7 @@ module.exports = function(app) {
     } else {
       res.render("index", {
         msg: "Welcome to H-town Brews!",
-        user: "guest"
+        user: "Login"
       });
     }
   });

@@ -22,6 +22,16 @@ $(document).ready(function () {
   $(".modal-close").on("click", () => {
     $(".modal").modal("close");
   });
+  $(".modal-login").on("submit", () => {
+    event.preventDefault();
+    let userInfo = {
+      userName: $("#name").val(),
+      password: $("#pass").val()
+    };
+    $.post("/login", userInfo, () => {
+      $(".modal").modal("close");
+    });
+  });
   //beerQuery($(".beer-body").data("id")); //will calll on page load and query reviews
 });
 
