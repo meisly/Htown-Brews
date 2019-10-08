@@ -29,9 +29,9 @@ module.exports = function(app) {
       .findAll({
         where: {
           [db.Op.or]: [
-            { beer_name: search },
-            { beer_type: search },
-            { brewrey: search }
+            { beer_name: {[db.Op.like]: search} },
+            { beer_type: {[db.Op.like]: search} },
+            { brewrey: {[db.Op.like]: search} }
           ]
         }
       })
