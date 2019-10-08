@@ -1,14 +1,13 @@
 const db = require("../models");
-const controller = require("../controller/controllerFunctions");
 
 const controller = require("./controller/controllerFunctions");
 
-module.exports = function (app) {
+module.exports = function(app) {
   // Get all examples
   let controlFunctions = new controller(db);
 
-<<<<<<< HEAD
-  app.get("/api", function (req, res) {
+  //Gets data for autocomplete
+  app.get("/api", function(req, res) {
     db.beers
       .findAll({
         attributes: ["beer_name", "beer_type", "brewrey"]
@@ -23,19 +22,72 @@ module.exports = function (app) {
         res.json(data);
       });
   });
-  // Create a new example
-  app.post("/api/examples", function (req, res) {
-    db.Example.create(req.body).then(function (dbExample) {
-      res.json(dbExample);
+  // display search results
+  app.get("/results/:searchTerm?", function(req, res) {
+    let search = req.params.searchTerm;
+    db.beers
+      .findAll({
+        where: {
+          [db.Op.or]: [
+            { beer_name: search },
+            { beer_type: search },
+            { brewrey: search }
+          ]
+        }
+      })
+      .then(results => {
+        if (req.session.userId) {
+          res.render("search-results", {
+            data: results
+          });
+        } else {
+          res.render("search-results", {
+            data: results
+          });
+        }
+      });
+  });
+  // post new revies
+  app.post("/api/review", (req, res) => {
+    /*takes user from sessions and and rating, paragraph, and beer id from front-end elements
+    will need a review obj and the beer itself so it can re-render then page I'm thinking passing
+    2 objects as an array 0 being the review info and 1 being the beer info doing this lets us
+    return the user to an updated page of the beer they just reviewed*/
+    let reviewObj = {
+      rating: req.body.reviewAndBeer[0].rating,
+      paragraph: req.body.reviewAndBeer[0].paragraph,
+      userId: req.sessions.userId,
+      beerId: req.body.reviewAndBeer[1].beerId
+    };
+    controlFunctions.addReview(reviewObj, result => {
+      if (result.affectedRows === 0) {
+        res.render("beerReviews", { beer: req.body.reviewAndBeer[1] });
+      } else {
+        res.render("404");
+      }
+    });
+  });
+  //grab all reviews by the id of a specific beer
+  app.get("/api/review/:id", (req, res) => {
+    controlFunctions.beerReviews(req.params.id, result => {
+      res.json(result);
+    });
+  });
+  app.get("/api/user/:id", (req, res) => {
+    controlFunctions.findReviewAuthor(req.params.id, result => {
+      res.json(result);
     });
   });
 
   // Delete an example by id
-  app.delete("/api/examples/:id", function (req, res) {
-    db.Example.destroy({ where: { id: req.params.id } }).then(function (dbExample) {
+  app.delete("/api/examples/:id", function(req, res) {
+    db.Example.destroy({ where: { id: req.params.id } }).then(function(
+      dbExample
+    ) {
       res.json(dbExample);
     });
   });
+<<<<<<< HEAD
 <<<<<<< HEAD
   app.post("api/newUser", (req,res)=>{
     let newUser = {
@@ -50,15 +102,30 @@ module.exports = function (app) {
 >>>>>>> f37cf56b9b6af55234e0d9b7b6644990676a4853
 };
 =======
+=======
+>>>>>>> 19de890755de0426ccdd797d78eeac26321a82a4
   app.post("/login", (req, res) => {
-    
-    controlFunctions.login(req, res);
-  },
+    controlFunctions.login(req, userData => {
+      controlFunctions.dashboard(req, userData, result => {
+        if (result) {
+          res.render("/", {
+            msg: "Welcome to H-town Brews!",
+            user: result[0].user
+          });
+        } else {
+          console.log("failed to validate");
+          res.render("/", {
+            msg: "Welcome to H-town Brews!",
+            user: "guest"
+          });
+        }
+      });
+    });
+  });
+
   app.post("api/newUser", (req, res) => {
-    
-    controlFunctions.newUserQuery(req,res);
-  },
+    controlFunctions.newUserQuery(req, res, result => {
+      res.json(result);
+    });
+  });
 };
-
-
->>>>>>> 1f24223bd7ac627444c5f240264f6883fa4dab7a
