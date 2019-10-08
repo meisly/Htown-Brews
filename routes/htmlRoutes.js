@@ -19,7 +19,6 @@ module.exports = function(app) {
     }
   });
 
-  
   // Signup Page
   app.get("/signup", function(req, res) {
     res.render("signup");

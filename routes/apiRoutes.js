@@ -87,23 +87,6 @@ module.exports = function(app) {
       res.json(dbExample);
     });
   });
-<<<<<<< HEAD
-<<<<<<< HEAD
-  app.post("api/newUser", (req,res)=>{
-    let newUser = {
-      username: req.body.userName,
-      password: req.body.password,
-      email: req.body.email,
-      role: 'guest'
-    };
-    controlFunctions.hashIt(newUser);
-  });
-=======
->>>>>>> f37cf56b9b6af55234e0d9b7b6644990676a4853
-};
-=======
-=======
->>>>>>> 19de890755de0426ccdd797d78eeac26321a82a4
   app.post("/login", (req, res) => {
     controlFunctions.login(req, userData => {
       controlFunctions.dashboard(req, userData, result => {
