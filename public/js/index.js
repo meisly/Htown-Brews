@@ -28,7 +28,7 @@ function getReviewAuthors(data) {
   $.ajax(`api/user/${data.userId}`, {
     type: "GET"
   }).then(results => {
-    appendReviews(data, results[0].username);
+    appendReviews(data, results.username);
   });
 }
 function appendReviews(data, reviewAuthor) {
@@ -38,3 +38,10 @@ function appendReviews(data, reviewAuthor) {
   reviewString += `<p> ${data.review_paragraph} </p>`;
   $(reviewString).appendTo(".reviews-list");
 }
+
+// function userClass() {
+//   this.userInfo = this.findUserInfo();
+//   this.findUserInfo = () => {
+
+//   }
+// }

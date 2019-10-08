@@ -1,4 +1,5 @@
 module.exports = function(db) {
+  const crypto = require("crypto");
   this.searchBeers = async (keyword, callback) => {
     results = await db.beers.findall({
       where: {
@@ -79,7 +80,7 @@ module.exports = function(db) {
       "sha512",
       salt
     ); /** Hashing algorithm sha512 */
-    hash.update(password);
+    hash.update(password.toString());
     let value = hash.digest("hex");
     return {
       salt: salt,
@@ -89,14 +90,20 @@ module.exports = function(db) {
   this.newUserQuery = async (req, res, callback) => {
     //hashes the password then stores user values and salt in DB
     let newUser = {
-      username: req.body.userName,
+      username: req.body.username,
       password: req.body.password,
       email: req.body.email,
       role: "guest"
     };
-
     let Salt = this.genRandomString(16); /** Gives us salt of length 16 */
     let passwordData = this.sha512(newUser.username, newUser.password, Salt);
+    let result = await db.users.create({
+      userName: newUser.username,
+      email: newUser.email,
+      password: passwordData.passwordHash,
+      role: "guest",
+      salt: passwordData.salt
+    });
 
     if (result) {
       callback(result);
@@ -146,9 +153,9 @@ module.exports = function(db) {
     }
 
     if (results.length) {
-      sess.userId = results[0].id;
-      sess.user = results[0];
-      console.log(results[0].id);
+      sess.userId = results.id;
+      sess.user = results;
+      console.log(results.id);
       let userData = {
         user: req.session.user,
         userID: req.session.userId

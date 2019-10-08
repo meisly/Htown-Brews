@@ -24,10 +24,6 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
-    online: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: 0
-    },
     password: {
       type: DataTypes.STRING,
       len: [1, 2000],

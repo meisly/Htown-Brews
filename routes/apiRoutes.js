@@ -106,7 +106,7 @@ module.exports = function(app) {
     });
   });
 
-  app.post("api/newUser", (req, res) => {
+  app.post("/api/newUser", (req, res) => {
     controlFunctions.newUserQuery(req, res, result => {
       res.json(result);
     });
