@@ -29,4 +29,4 @@ module.exports = (sequelize, DataTypes) => {
     reviews.belongsTo(models.beers, {});
   };
   return reviews;
-}
+};
