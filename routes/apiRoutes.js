@@ -41,7 +41,7 @@ module.exports = function(app) {
         if (req.session.userId) {
           res.render("search-results", {
             data: results,
-            user: req.session.user
+            user: req.session.userName
           });
         } else {
           res.render("search-results", {
