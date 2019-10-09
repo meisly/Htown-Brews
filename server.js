@@ -1,8 +1,8 @@
 require("dotenv").config();
-let test = require('./config/config');
+let test = require("./config/config");
 const express = require("express");
 const exphbs = require("express-handlebars");
-const session = require('express-session');
+const session = require("express-session");
 
 var db = require("./models");
 
@@ -13,7 +13,7 @@ var PORT = process.env.PORT || 3000;
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(express.static("public"));
-app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
+app.use(session({ secret: "keyboard cat", cookie: { maxAge: 60000 } }));
 
 // Handlebars
 app.engine(
