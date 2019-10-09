@@ -15,6 +15,48 @@
                     </div>
                 </div>
             </div>
+            {{!--Review Modal--}}
+            <div class="home"></div>
+            <div id="#reviewmodal" class="modal">
+              <h5 class="reviewmodal-close">&#10005;</h5>
+              <div class="reviewmodal-content center">
+                <h4>Write your Review!</h4>
+                <br>
+                <form action="#">
+                  <div class="showcase">
+                        <div class="rating-system4">
+                          <h3 id="ratingheader">Select your rating</h3>
+                          <input type="radio" name='rate4' id="star5_4" />
+                          <label class="ratinglabel" for="star5_4"></label>
+
+                          <input type="radio" name='rate4' id="star4_4" />
+                          <label class="ratinglabel" for="star4_4"></label>
+
+                          <input type="radio" name='rate4' id="star3_4" />
+                          <label class="ratinglabel" for="star3_4"></label>
+
+                          <input type="radio" name='rate4' id="star2_4" />
+                          <label class="ratinglabel" for="star2_4"></label>
+
+                          <input type="radio" name='rate4' id="star1_4" />
+                          <label class="ratinglabel" for="star1_4"></label>
+                        </div>
+                        </div>
+                  <br>
+                  <br>
+                  <br>
+                  <br>
+                   <div class="row">
+                      <div class="input-field col s12">
+                         <textarea id="userreview" class="materialize-textarea"></textarea>
+                         <label for="userreview">Review</label>
+                     </div>
+                    </div>
+                  <input type="submit" value="Review" class="btn btn-large reviewmodal-submit">
+                </form>
+              </div>
+            </div>
+
             {{!-- Search Results --}}
             {{#each data}}
             <div class="row">
@@ -34,7 +76,7 @@
                                     </div>
                                     <div class="card-action">
                                         <a href="/beer/{{dataValues.id}}">Read Reviews</a>
-                                        <a href="#">Write a Review</a>
+                                        <a href="#" id="writereview" data="{{data-id}}">Write a Review</a>
                                     </div>
                                 </div>
                             </div>

@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
     }
   });
-  reviews.associate = function (models) {
+  reviews.associate = function(models) {
     reviews.belongsTo(models.users, {});
     reviews.belongsTo(models.beers, {});
   };

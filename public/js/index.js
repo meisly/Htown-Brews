@@ -1,4 +1,4 @@
-$(document).ready(function () {
+$(document).ready(function() {
   // Materialize code to add data for autocomplete search.
   // Replace Data with our data from beers db
   $.ajax("api/", {
@@ -8,7 +8,7 @@ $(document).ready(function () {
     $("input.autocomplete").autocomplete({
       data: results,
       limit: 5,
-      onAutocomplete: function () {
+      onAutocomplete: function() {
         let searchTerm = $("#autocomplete-input").val();
         window.location.replace("/results/" + searchTerm);
       }
@@ -16,7 +16,7 @@ $(document).ready(function () {
   });
   $("#main-search").on("click", () => {
     let searchTerm = $("#autocomplete-input").val();
-    window.location.replace("/results/" + searchTerm)
+    window.location.replace("/results/" + searchTerm);
   });
   $(".modal-trigger").on("click", () => {
     $(".modal").modal("open");
@@ -35,38 +35,6 @@ $(document).ready(function () {
     });
   });
 });
-<<<<<<< HEAD
-
-  function beerQuery(id) {
-    //queries reviews then queries their user in the getReviewsAuthors based on userId
-    $.ajax(`api/review/${id}`, {
-      type: "GET"
-    }).then(results => {
-      console.table(results);
-      results.forEach(index => {
-        getReviewAuthors(index);
-      });
-    });
-  };
-}
-function getReviewAuthors(data) {
-  //once we have both username info and the review info we can append the review
-  $.ajax(`api/user/${data.userId}`, {
-    type: "GET"
-  }).then(results => {
-    appendReviews(data, results.username);
-  });
-}
-function appendReviews(data, reviewAuthor) {
-  //creates the review div then appends it
-  let reviewString = "<div class='reviewBlock'><div class='stars'></div>";
-  reviewString += `<h2> By: ${reviewAuthor} </h2>`;
-  reviewString += `<p> ${data.review_paragraph} </p>`;
-  $(reviewString).appendTo(".reviews-list");
-}
-
-=======
->>>>>>> d4e67b334464350454013bf73fc1690a886aa045
 // function userClass() {
 //   this.userInfo = this.findUserInfo();
 //   this.findUserInfo = () => {
