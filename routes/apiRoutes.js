@@ -91,6 +91,7 @@ module.exports = function(app) {
     controlFunctions.login(req, userData => {
       controlFunctions.dashboard(req, userData, result => {
         if (result) {
+          console.table(result);
           res.render("/", {
             msg: "Welcome to H-town Brews!",
             user: result.user
