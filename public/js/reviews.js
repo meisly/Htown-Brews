@@ -1,4 +1,5 @@
 $(document).ready(function () {
+    $('.collapsible').collapsible();
     function beerQuery(id) {
         //queries reviews then queries their user in the getReviewsAuthors based on userId
         $.ajax(`api/review/${id}`, {
