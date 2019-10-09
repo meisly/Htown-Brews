@@ -56,16 +56,16 @@ module.exports = function(db) {
   };
   //***************************************************password validation**************************************************** */
   this.getSalt = async username => {
-    let result = db.users.findOne({
+    let result = await db.users.findOne({
       where: { userName: username },
-      attributes: { salt }
+      attributes: ["salt"]
     });
-    if (result.length) {
-      console.table(result);
-      return result[0];
+    console.log(result.dataValues.salt);
+    if (result) {
+      console.log(result.dataValues.salt);
+      return result.dataValues.salt;
     } else {
       console.log("err retrying");
-      this.getSalt(username);
     }
   };
   this.genRandomString = length => {
@@ -96,7 +96,7 @@ module.exports = function(db) {
       role: "guest"
     };
     let Salt = this.genRandomString(16); /** Gives us salt of length 16 */
-    let passwordData = this.sha512(newUser.username, newUser.password, Salt);
+    let passwordData = this.sha512(newUser.password, Salt);
     let result = await db.users.create({
       userName: newUser.username,
       email: newUser.email,
@@ -115,24 +115,21 @@ module.exports = function(db) {
   this.login = async (req, callback) => {
     const sess = req.session;
     const post = req.body;
-
-    let userSalt = this.getSalt(post.userName);
+    let userSalt = await this.getSalt(post.userName);
     let name = post.userName;
     let pass = this.sha512(post.password, userSalt);
     let results = await db.users.findOne({
       where: {
         userName: name,
-        password: pass
+        password: pass.passwordHash
       }
     });
-
     if (results.length) {
-      sess.userId = results[0].id;
-      sess.user = results[0];
-      console.log(results[0].id);
+      sess.userId = results.id;
+      sess.user = results;
       let userData = {
-        user: req.session.user,
-        userID: req.session.userId
+        user: sess.user,
+        userID: sess.userId
       };
       if (userId === null) {
         console.log("error");
@@ -142,51 +139,10 @@ module.exports = function(db) {
       }
     }
   };
-  this.dashboard = async (req, res, data, callback) => {
-    let result = await db.users.findOne({
-      where: { id: data.userId }
-    });
-    if (result.length) {
-      callback(result);
-    } else {
-      console.log("ERR");
-    }
-
-    if (results.length) {
-      sess.userId = results.id;
-      sess.user = results;
-      console.log(results.id);
-      let userData = {
-        user: req.session.user,
-        userID: req.session.userId
-      };
-      if (userId === null) {
-        res.redirect("/", {
-          msg: "Invalid Login",
-          user: req.session.userName
-        });
-        return;
-      } else {
-        this.dashboard(req, res, userData);
-      }
-    } else {
-      res.render("/", {
-        msg: "Wrong Credentials",
-        user: req.session.userName
-      });
-    }
-  };
   this.dashboard = async (req, res, data) => {
     let result = db.users.findOne({
       where: { id: data.userId }
     });
-    if (result.length) {
-      res.render("/", {
-        msg: "Welcome to H-town Brews!",
-        user: data.user
-      });
-    } else {
-      console.log("ERR");
-    }
+    callback(result);
   };
 };
