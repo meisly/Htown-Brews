@@ -1,8 +1,6 @@
 $(document).ready(function () {
   // Materialize code to add data for autocomplete search.
   // Replace Data with our data from beers db
-  $(".modal").modal();
-
   $.ajax("api/", {
     type: "GET"
   }).then(results => {
@@ -36,8 +34,8 @@ $(document).ready(function () {
       $(".modal").modal("close");
     });
   });
-  //beerQuery($(".beer-body").data("id")); //will calll on page load and query reviews
 });
+<<<<<<< HEAD
 
   function beerQuery(id) {
     //queries reviews then queries their user in the getReviewsAuthors based on userId
@@ -67,6 +65,8 @@ function appendReviews(data, reviewAuthor) {
   $(reviewString).appendTo(".reviews-list");
 }
 
+=======
+>>>>>>> d4e67b334464350454013bf73fc1690a886aa045
 // function userClass() {
 //   this.userInfo = this.findUserInfo();
 //   this.findUserInfo = () => {
