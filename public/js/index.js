@@ -49,7 +49,7 @@ $(document).ready(function () {
         getReviewAuthors(index);
       });
     });
-  });
+  };
 }
 function getReviewAuthors(data) {
   //once we have both username info and the review info we can append the review
