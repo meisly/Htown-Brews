@@ -73,6 +73,7 @@ module.exports = function(app) {
   //grab all reviews by the id of a specific beer
   app.get("/api/review/:id", (req, res) => {
     controlFunctions.beerReviews(req.params.id, result => {
+      console.log(result)
       res.json(result);
     });
   });

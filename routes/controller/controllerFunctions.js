@@ -23,7 +23,7 @@ module.exports = function(db) {
     //lists reviews by beer id
     result = await db.reviews.findAll({
       where: {
-        beerId: beerId
+        id: beerId
       }
     });
     callback(result);
