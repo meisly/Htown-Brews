@@ -18,3 +18,22 @@ $(document).ready(function () {
     window.location.replace("/results/" + searchTerm);
   });
 });
+
+$("#writereview").on("click", () => {
+  $(".modal").modal("open");
+});
+$(".reviewmodal-close").on("click", () => {
+  $(".modal").modal("close");
+});
+$(".reviewmodal-submit").on("submit", () => {
+  event.preventDefault();
+  let reviewInfo = {
+    id: req.session.userId,
+    reviewRating: $(".rating").val(),
+    reviewParagraph: $("#userreview").val(),
+    beerid: $("#writereview").data("id")
+  };
+  $.post("/api/newreview", reviewInfo, () => {
+    $(".modal").modal("close");
+  });
+});
