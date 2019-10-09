@@ -113,7 +113,6 @@ module.exports = function(db) {
   };
   /*****************************************************Check Sessions*****************************************************/
   this.login = async (req, callback) => {
-    const sess = req.session;
     const post = req.body;
     let userSalt = await this.getSalt(post.userName);
     let name = post.userName;
@@ -122,16 +121,16 @@ module.exports = function(db) {
       where: {
         userName: name,
         password: pass.passwordHash
-      }
+      },
+      attributes: ["id", "userName"]
     });
-    if (results.length) {
-      sess.userId = results.id;
-      sess.user = results;
+    if (results) {
+      console.log("line 128");
       let userData = {
-        user: sess.user,
-        userID: sess.userId
+        userName: results.dataValues.userName,
+        userID: results.dataValues.id
       };
-      if (userId === null) {
+      if (userData.userID === null) {
         console.log("error");
         return;
       } else {
@@ -139,10 +138,17 @@ module.exports = function(db) {
       }
     }
   };
-  this.dashboard = async (req, res, data) => {
-    let result = db.users.findOne({
-      where: { id: data.userId }
-    });
-    callback(result);
-  };
+  // this.dashboard = async (req, res, data) => {
+  //   console.log("line 144");
+  //   let result = await db.users.findOne({
+  //     where: { id: data.userId },
+  //     attributes: ["userName", "id"]
+  //   });
+  //   let userResult = {
+  //     userName: result.dataValues.userName,
+  //     id: result.dataValues.id
+  //   };
+  //   console.table(userResult);
+  //   callback(userResult);
+  // };
 };

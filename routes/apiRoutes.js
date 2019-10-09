@@ -29,20 +29,23 @@ module.exports = function(app) {
       .findAll({
         where: {
           [db.Op.or]: [
-            { beer_name: {[db.Op.like]: search} },
-            { beer_type: {[db.Op.like]: search} },
-            { brewrey: {[db.Op.like]: search} }
+            { beer_name: { [db.Op.like]: search } },
+            { beer_type: { [db.Op.like]: search } },
+            { brewrey: { [db.Op.like]: search } }
           ]
         }
       })
       .then(results => {
         if (req.session.userId) {
+          console.log(req.session.user);
           res.render("search-results", {
-            data: results
+            data: results,
+            user: req.session.user
           });
         } else {
           res.render("search-results", {
-            data: results
+            data: results,
+            user: null
           });
         }
       });
@@ -89,21 +92,14 @@ module.exports = function(app) {
   });
   app.post("/login", (req, res) => {
     controlFunctions.login(req, userData => {
-      controlFunctions.dashboard(req, userData, result => {
-        if (result) {
-          console.table(result);
-          res.render("/", {
-            msg: "Welcome to H-town Brews!",
-            user: result.user
-          });
-        } else {
-          console.log("failed to validate");
-          res.render("/", {
-            msg: "Welcome to H-town Brews!",
-            user: "guest"
-          });
-        }
-      });
+      if (userData) {
+        req.session.userId = userData.userID;
+        req.session.userName = userData.userName;
+        res.render("index", {
+          msg: "Welcome to H-town Brews!",
+          user: req.session.userName
+        });
+      }
     });
   });
 
