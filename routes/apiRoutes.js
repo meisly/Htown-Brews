@@ -36,8 +36,9 @@ module.exports = function(app) {
         }
       })
       .then(results => {
+        console.log('we need session info: ');
+        console.log(req.session.user);
         if (req.session.userId) {
-          console.log(req.session.user);
           res.render("search-results", {
             data: results,
             user: req.session.user
@@ -96,6 +97,7 @@ module.exports = function(app) {
       if (userData) {
         req.session.userId = userData.userID;
         req.session.userName = userData.userName;
+        req.session.save();
         res.render("index", {
           msg: "Welcome to H-town Brews!",
           user: req.session.userName
