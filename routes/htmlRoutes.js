@@ -1,16 +1,23 @@
 var db = require("../models");
 const controller = require("./controller/controllerFunctions");
-module.exports = function (app) {
+module.exports = function(app) {
   // Load index page
   // Access the session as req.session
   let controlFunctions = new controller(db);
 
-  app.get("/", function (req, res) {
+  app.get("/", function(req, res) {
     if (req.session.userId) {
-      res.render("index", {
-        msg: "Welcome to H-town Brews!",
-        user: req.session.userName
-      });
+      if (req.session.userRole === "admin") {
+        res.render("admin", {
+          msg: "Welcome admin",
+          user: req.session.userName
+        });
+      } else {
+        res.render("index", {
+          msg: "Welcome to H-town Brews!",
+          user: req.session.userName
+        });
+      }
     } else {
       res.render("index", {
         msg: "Welcome to H-town Brews!",
@@ -20,7 +27,7 @@ module.exports = function (app) {
   });
 
   // Signup Page
-  app.get("/signup", function (req, res) {
+  app.get("/signup", function(req, res) {
     if (req.session.userId) {
       res.render("signup", {
         user: req.session.userName
@@ -47,9 +54,26 @@ module.exports = function (app) {
       }
     });
   });
+  app.get("/admin/addBeer", (req, res) => {
+    if ((req.session.userRole = "admin")) {
+      res.render("addBeer", { user: req.session.userName });
+    } else {
+      if (req.session.userId) {
+        res.render("index", {
+          msg: "Welcome to H-town Brews!",
+          user: req.session.userName
+        });
+      } else {
+        res.render("index", {
+          msg: "Welcome to H-town Brews!",
+          user: null
+        });
+      }
+    }
+  });
 
   // Render 404 page for any unmatched routes
-  app.get("*", function (req, res) {
+  app.get("*", function(req, res) {
     if (req.session.userId) {
       res.render("404", {
         user: req.session.userName

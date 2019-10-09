@@ -51,6 +51,21 @@ module.exports = function(app) {
         }
       });
   });
+  app.post("/api/beer", (req, res) => {
+    let beerObj = {
+      name: req.body.name,
+      type: req.body.type,
+      description: req.body.description,
+      brewrey: req.body.brewrey
+    };
+    controlFunctions.addBeer(beerObj, result => {
+      if (result) {
+        window.location.reload();
+      } else {
+        res.json("404");
+      }
+    });
+  });
   // post new revies
   app.post("/api/review", (req, res) => {
     /*takes user from sessions and and rating, paragraph, and beer id from front-end elements
@@ -97,11 +112,20 @@ module.exports = function(app) {
       if (userData) {
         req.session.userId = userData.userID;
         req.session.userName = userData.userName;
+        req.session.userRole = userData.userRole;
+        console.log(req.session.userRole);
         req.session.save();
-        res.render("index", {
-          msg: "Welcome to H-town Brews!",
-          user: req.session.userName
-        });
+        if (req.session.userRole === "admin") {
+          res.render("admin", {
+            msg: "Welcome Admin!",
+            user: req.session.userName
+          });
+        } else {
+          res.render("index", {
+            msg: "Welcome to H-town Brews!",
+            user: req.session.userName
+          });
+        }
       }
     });
   });
