@@ -36,9 +36,9 @@ module.exports = function(db) {
   and calcing their average*/
   this.beerReviews = async (beerId, callback) => {
     //lists reviews by beer id
-    result = await db.reviews.findAll({
+    let result = await db.reviews.findAll({
       where: {
-        id: beerId
+        beerId: beerId
       }
     });
     callback(result);
@@ -60,7 +60,7 @@ module.exports = function(db) {
       },
       attributes: ["username"]
     });
-    if (result.length) {
+    if (result) {
       callback(result);
     } else {
       callback("404");

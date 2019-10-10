@@ -114,13 +114,23 @@ label.light-txt-input.active.center {
 .card.horizontal .card-image .search-result-img {
   width: 100px;
 }
+.card-action.row .reviews-header {
+  border: none;
+}
 @media only screen and (min-width: 0) {
   .hide-in-small {
     display: none
   }
 }
-
-
+.card .card-action.row:last-child {
+  border-radius: 0 0 2px 2px;
+  position: relative;
+  bottom: -1rem;
+  border: none;
+}
+.review-collapsible {
+  border-top: none;
+}
 /* ################################### Form CSS ################################### */
 .input-field input[type=text]:focus + label, .materialize-textarea:focus:not([readonly]) + label {
   color: #5d4037 !important;

@@ -22,35 +22,7 @@ module.exports = function(app) {
         res.json(data);
       });
   });
-  // display search results
-  app.get("/results/:searchTerm?", function(req, res) {
-    let search = req.params.searchTerm;
-    db.beers
-      .findAll({
-        where: {
-          [db.Op.or]: [
-            { beer_name: { [db.Op.like]: search } },
-            { beer_type: { [db.Op.like]: search } },
-            { brewrey: { [db.Op.like]: search } }
-          ]
-        }
-      })
-      .then(results => {
-        console.log('we need session info: ');
-        console.log(req.session.user);
-        if (req.session.userId) {
-          res.render("search-results", {
-            data: results,
-            user: req.session.userName
-          });
-        } else {
-          res.render("search-results", {
-            data: results,
-            user: null
-          });
-        }
-      });
-  });
+
   app.get("/api/beer/:id", (req, res) => {
     let beerId = req.params.id;
     controlFunctions.beerById(beerId, result => {
@@ -84,10 +56,10 @@ module.exports = function(app) {
     2 objects as an array 0 being the review info and 1 being the beer info doing this lets us
     return the user to an updated page of the beer they just reviewed*/
     let reviewObj = {
-      rating: req.body.reviewAndBeer[0].rating,
-      paragraph: req.body.reviewAndBeer[0].paragraph,
-      userId: req.sessions.userId,
-      beerId: req.body.reviewAndBeer[1].beerId
+      rating: req.body.reviewrRating,
+      paragraph: req.body.reviewParagraph,
+      userId: req.body.id,
+      beerId: req.body.beerid
     };
     controlFunctions.addReview(reviewObj, result => {
       if (result.affectedRows === 0) {
@@ -100,24 +72,16 @@ module.exports = function(app) {
   //grab all reviews by the id of a specific beer
   app.get("/api/review/:id", (req, res) => {
     controlFunctions.beerReviews(req.params.id, result => {
-      console.log(result)
       res.json(result);
     });
   });
   app.get("/api/user/:id", (req, res) => {
+    console.log("api routes should return author info")
     controlFunctions.findReviewAuthor(req.params.id, result => {
       res.json(result);
     });
   });
 
-  // Delete an example by id
-  app.delete("/api/examples/:id", function(req, res) {
-    db.Example.destroy({ where: { id: req.params.id } }).then(function(
-      dbExample
-    ) {
-      res.json(dbExample);
-    });
-  });
   app.post("/login", (req, res) => {
     controlFunctions.login(req, userData => {
       if (userData) {

@@ -14,3 +14,4 @@ INSERT INTO beers (beer_name, beer_type, beer_description, brewrey) VALUES ("Gut
 INSERT INTO beers (beer_name, beer_type, beer_description, brewrey) VALUES ("Pub Crawl", "Pale Ale", "Yum", "Saint Arnold");
 INSERT INTO beers (beer_name, beer_type, beer_description, brewrey) VALUES ("Citrodos", "IPA", "Yum", "Saint Arnold");
 INSERT INTO beers (beer_name, beer_type, beer_description, brewrey) VALUES ("Raspberry AF", "Berliner Weisse", "Yum", "Saint Arnold");
+

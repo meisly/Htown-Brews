@@ -24,9 +24,9 @@
         </li>
         {{/if}}
         {{#unless user}}
-        <li><a id="#logAccount" href="#login" class="modal-trigger waves-effect waves-light btn navbar-btn"
+        <li><a id="#logAccount" href="#login" class="login-modal-trigger modal-trigger waves-effect waves-light btn navbar-btn"
             tabindex="-1">Login</a></li>
-        <li><a class="waves-effect waves-light btn navbar-btn" href="./signup">Register</a></li>
+        <li><a class="waves-effect waves-light btn navbar-btn" href="/signup">Register</a></li>
         {{/unless}}
       </ul>
 
@@ -37,7 +37,8 @@
     </div>
   </nav>
   <div class="home"></div>
-  <div id="#login" class="modal">
+  {{!-- Login Modal --}}
+  <div id="#login" class="modal login-modal">
     <h5 class="modal-close">&#10005;</h5>
     <div class="modal-content center">
       <h4>Login</h4>
