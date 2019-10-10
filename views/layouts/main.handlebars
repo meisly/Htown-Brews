@@ -20,7 +20,7 @@
       <ul class="right hide-on-med-and-down">
         {{#if user}}
         <li id="user-info" data-userId={{user.userId}}>
-           Welcome {{user.userName}}
+          <a href="/logout"> Welcome {{user.userName}} </a>
         </li>
         {{/if}}
         {{#unless user}}

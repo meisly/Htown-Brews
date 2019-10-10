@@ -158,6 +158,13 @@ module.exports = function(app) {
       }
     }
   });
+  app.get("/logout", (req, res) => {
+    req.session.destroy();
+    res.render("index", {
+      msg: "Welcome to H-town Brews!",
+      user: null
+    });
+  });
 
   // Render 404 page for any unmatched routes
   app.get("*", function(req, res) {
