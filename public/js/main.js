@@ -16,8 +16,8 @@ $(document).ready(function() {
     };
     console.log(userInfo);
     $.post("/login", userInfo, () => {
-      console.table(userInfo);
       $(".modal").modal("close");
+      window.location.href = "/";
     });
   });
 });

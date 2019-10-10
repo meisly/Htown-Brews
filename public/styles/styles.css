@@ -73,6 +73,12 @@ label.light-txt-input.active.center {
 .addMenu {
   background-color: #ffffff;
 }
+.spacer {
+  padding-bottom: 50%;
+}
+.warning-text {
+  color: #ff0000;
+}
 
 /* ################################## SignUp Page ################################### */
 .signupbox{

@@ -71,6 +71,23 @@ module.exports = function(app) {
       }
     }
   });
+  app.get("/admin/removeBeer", (req, res) => {
+    if (req.session.userRole === "admin") {
+      res.render("deleteBeer", { user: req.session.userName });
+    } else {
+      if (req.session.userId) {
+        res.render("index", {
+          msg: "Welcome to H-town Brews!",
+          user: req.session.userName
+        });
+      } else {
+        res.render("index", {
+          msg: "Welcome to H-town Brews!",
+          user: null
+        });
+      }
+    }
+  });
 
   // Render 404 page for any unmatched routes
   app.get("*", function(req, res) {

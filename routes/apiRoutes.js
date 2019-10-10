@@ -51,6 +51,17 @@ module.exports = function(app) {
         }
       });
   });
+  app.get("/api/beer/:id", (req, res) => {
+    let beerId = req.params.id;
+    controlFunctions.beerById(beerId, result => {
+      res.json(result);
+    });
+  });
+  app.delete("/api/beer/:id", (req, res) => {
+    controlFunctions.deleteBeer(req.params.id, result => {
+      res.send(200);
+    });
+  });
   app.post("/api/beer", (req, res) => {
     let beerObj = {
       name: req.body.name,

@@ -26,6 +26,12 @@ module.exports = function(db) {
     });
     callback(results);
   };
+  this.deleteBeer = async (beerId, callback) => {
+    results = await db.beers.destroy({
+      where: { id: beerId }
+    });
+    callback(result);
+  };
   /*will calculate the average rating of the beer by taking the review scores from the reviews table
   and calcing their average*/
   this.beerReviews = async (beerId, callback) => {
