@@ -47,7 +47,7 @@ module.exports = function(app) {
         const beerPromise = results.map(beer => {
           return db.reviews
             .findAll({
-              where: { id: beer.dataValues.id },
+              where: { beerId: beer.dataValues.id },
               include: [
                 {
                   model: db.users
@@ -63,6 +63,7 @@ module.exports = function(app) {
         });
 
         Promise.all(beerPromise).then(beers => {
+          console.log(JSON.stringify(beers, null, 2))
           res.render("search-results", {
             data: beers,
             user: user

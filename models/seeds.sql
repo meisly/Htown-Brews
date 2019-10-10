@@ -14,3 +14,9 @@ INSERT INTO beers (beer_name, beer_type, beer_description, brewrey) VALUES ("Gut
 INSERT INTO beers (beer_name, beer_type, beer_description, brewrey) VALUES ("Pub Crawl", "Pale Ale", "Yum", "Saint Arnold");
 INSERT INTO beers (beer_name, beer_type, beer_description, brewrey) VALUES ("Citrodos", "IPA", "Yum", "Saint Arnold");
 INSERT INTO beers (beer_name, beer_type, beer_description, brewrey) VALUES ("Raspberry AF", "Berliner Weisse", "Yum", "Saint Arnold");
+
+USE project;
+INSERT INTO reviews (reviewRating, reviewParagraph, beerId, userId) VALUES (4, "It was yummy", 1, 1);
+INSERT INTO reviews (reviewRating, reviewParagraph, beerId, userId) VALUES (2, "It was yucky", 2, 1);
+INSERT INTO reviews (reviewRating, reviewParagraph, beerId, userId) VALUES (3, "It was ok", 1, 2);
+INSERT INTO reviews (reviewRating, reviewParagraph, beerId, userId) VALUES (1, "It was gross", 3, 1);
