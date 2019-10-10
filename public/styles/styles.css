@@ -69,7 +69,16 @@ label.light-txt-input.active.center {
 .landing-search {
   padding: 1rem;
 }
-
+/* ################################## admin Page #################################### */
+.addMenu {
+  background-color: #ffffff;
+}
+.spacer {
+  padding-bottom: 50%;
+}
+.warning-text {
+  color: #ff0000;
+}
 
 /* ################################## SignUp Page ################################### */
 .signupbox{
