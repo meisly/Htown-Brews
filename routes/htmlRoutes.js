@@ -19,6 +19,53 @@ module.exports = function (app) {
     }
   });
 
+  // display search results
+  app.get("/results/:searchTerm?", function (req, res) {
+    let search = req.params.searchTerm;
+    db.beers
+      .findAll({
+        where: {
+          [db.Op.or]: [
+            { beer_name: { [db.Op.like]: search } },
+            { beer_type: { [db.Op.like]: search } },
+            { brewrey: { [db.Op.like]: search } }
+          ]
+        }
+      })
+      .then(results => {
+        let user = null;
+        if (req.session.userId) {
+          user = req.session.userName;
+        }
+        const beerPromise = results.map(beer => {
+          console.log(beer.dataValues.id);
+          return db.reviews
+            .findAll({
+              where: { id: beer.dataValues.id },
+              include: [
+                {
+                  model: db.users
+                }
+              ]
+            })
+            .then(rev => {
+              return {
+                beer: beer,
+                reviews: rev
+              };
+            });
+        });
+
+        Promise.all(beerPromise).then(beers => {
+          res.render("search-results", {
+            data: beers,
+            user: user
+          });
+          console.log(JSON.stringify(beers, null, 2));
+        });
+      });
+  });
+
   // Signup Page
   app.get("/signup", function (req, res) {
     if (req.session.userId) {
@@ -56,7 +103,7 @@ module.exports = function (app) {
       });
     } else {
       res.render("404", {
-        user: req.session.userName
+        user: null
       });
     }
   });
