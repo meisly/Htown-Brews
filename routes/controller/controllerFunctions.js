@@ -17,6 +17,21 @@ module.exports = function(db) {
     });
     callback(results);
   };
+  this.addBeer = async (beerObj, callback) => {
+    results = await db.beers.create({
+      beer_name: beerObj.name,
+      beer_type: beerObj.type,
+      beer_description: beerObj.description,
+      brewrey: beerObj.brewrey
+    });
+    callback(results);
+  };
+  this.deleteBeer = async (beerId, callback) => {
+    results = await db.beers.destroy({
+      where: { id: beerId }
+    });
+    callback(result);
+  };
   /*will calculate the average rating of the beer by taking the review scores from the reviews table
   and calcing their average*/
   this.beerReviews = async (beerId, callback) => {
@@ -122,13 +137,14 @@ module.exports = function(db) {
         userName: name,
         password: pass.passwordHash
       },
-      attributes: ["id", "userName"]
+      attributes: ["id", "userName", "role"]
     });
     if (results) {
       console.log("line 128");
       let userData = {
         userName: results.dataValues.userName,
-        userID: results.dataValues.id
+        userID: results.dataValues.id,
+        userRole: results.dataValues.role
       };
       if (userData.userID === null) {
         console.log("error");
@@ -138,17 +154,4 @@ module.exports = function(db) {
       }
     }
   };
-  // this.dashboard = async (req, res, data) => {
-  //   console.log("line 144");
-  //   let result = await db.users.findOne({
-  //     where: { id: data.userId },
-  //     attributes: ["userName", "id"]
-  //   });
-  //   let userResult = {
-  //     userName: result.dataValues.userName,
-  //     id: result.dataValues.id
-  //   };
-  //   console.table(userResult);
-  //   callback(userResult);
-  // };
 };

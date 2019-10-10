@@ -36,11 +36,12 @@ module.exports = function(app) {
         }
       })
       .then(results => {
+        console.log('we need session info: ');
+        console.log(req.session.user);
         if (req.session.userId) {
-          console.log(req.session.user);
           res.render("search-results", {
             data: results,
-            user: req.session.user
+            user: req.session.userName
           });
         } else {
           res.render("search-results", {
@@ -49,6 +50,32 @@ module.exports = function(app) {
           });
         }
       });
+  });
+  app.get("/api/beer/:id", (req, res) => {
+    let beerId = req.params.id;
+    controlFunctions.beerById(beerId, result => {
+      res.json(result);
+    });
+  });
+  app.delete("/api/beer/:id", (req, res) => {
+    controlFunctions.deleteBeer(req.params.id, result => {
+      res.send(200);
+    });
+  });
+  app.post("/api/beer", (req, res) => {
+    let beerObj = {
+      name: req.body.name,
+      type: req.body.type,
+      description: req.body.description,
+      brewrey: req.body.brewrey
+    };
+    controlFunctions.addBeer(beerObj, result => {
+      if (result) {
+        window.location.reload();
+      } else {
+        res.json("404");
+      }
+    });
   });
   // post new revies
   app.post("/api/review", (req, res) => {
@@ -96,10 +123,20 @@ module.exports = function(app) {
       if (userData) {
         req.session.userId = userData.userID;
         req.session.userName = userData.userName;
-        res.render("index", {
-          msg: "Welcome to H-town Brews!",
-          user: req.session.userName
-        });
+        req.session.userRole = userData.userRole;
+        console.log(req.session.userRole);
+        req.session.save();
+        if (req.session.userRole === "admin") {
+          res.render("admin", {
+            msg: "Welcome Admin!",
+            user: req.session.userName
+          });
+        } else {
+          res.render("index", {
+            msg: "Welcome to H-town Brews!",
+            user: req.session.userName
+          });
+        }
       }
     });
   });
