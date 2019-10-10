@@ -66,8 +66,43 @@ module.exports = function(db) {
       callback("404");
     }
   };
-  this.userReviews = async user => {
-    //lists reviews where review_author = user
+  this.calcRating = async (beerID, callback) => {
+    let beerResult = await db.beers.findOne({
+      where: {
+        id: beerID
+      },
+      attributes: ["avg_rating"]
+    });
+    if (beerResult) {
+      let beerReviewScores = await db.reviews.findAll({
+        where: {
+          beerId: beerID
+        },
+        attributes: ["reviewRating"]
+      });
+      if (beerReviewScores) {
+        let scoreArr = [];
+        scoreArr.push(beerResult.dataValues.avg_rating);
+        beerReviewScores.forEach(i => {
+          scoreArr.push(i.dataValues.reviewRating);
+        });
+        let ratingSum = scoreArr.reduce((total, currentValue) => {
+          return total + currentValue;
+        });
+        ratingSum /= scoreArr.length;
+        let finalPush = await db.beers.update(
+          {
+            avg_rating: ratingSum
+          },
+          {
+            where: {
+              id: beerID
+            }
+          }
+        );
+        callback(finalPush);
+      }
+    }
   };
   //***************************************************password validation**************************************************** */
   this.getSalt = async username => {
@@ -75,9 +110,7 @@ module.exports = function(db) {
       where: { userName: username },
       attributes: ["salt"]
     });
-    console.log(result.dataValues.salt);
     if (result) {
-      console.log(result.dataValues.salt);
       return result.dataValues.salt;
     } else {
       console.log("err retrying");

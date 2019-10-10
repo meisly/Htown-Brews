@@ -56,16 +56,34 @@ module.exports = function(app) {
     2 objects as an array 0 being the review info and 1 being the beer info doing this lets us
     return the user to an updated page of the beer they just reviewed*/
     let reviewObj = {
-      rating: req.body.reviewrRating,
+      rating: req.body.reviewRating,
       paragraph: req.body.reviewParagraph,
       userId: req.body.id,
       beerId: req.body.beerid
     };
     controlFunctions.addReview(reviewObj, result => {
-      if (result.affectedRows === 0) {
-        res.render("beerReviews", { beer: req.body.reviewAndBeer[1] });
+      let user = {
+        userName: req.session.userName,
+        userId: req.session.userId
+      };
+      if (result.affectedRows !== 0) {
+        controlFunctions.beerById(reviewObj.beerId, beerResult => {
+          res.render("beerReviews", {
+            user: user,
+            beer: beerResult
+          });
+        })
       } else {
         res.render("404");
+      }
+    });
+  });
+  app.put("/api/beer/:id", (req, res) => {
+    controlFunctions.calcRating(req.params.id, result => {
+      if (result) {
+        res.sendStatus(200);
+      } else {
+        res.sendStatus(404);
       }
     });
   });
@@ -76,7 +94,7 @@ module.exports = function(app) {
     });
   });
   app.get("/api/user/:id", (req, res) => {
-    console.log("api routes should return author info")
+    console.log("api routes should return author info");
     controlFunctions.findReviewAuthor(req.params.id, result => {
       res.json(result);
     });
@@ -90,15 +108,19 @@ module.exports = function(app) {
         req.session.userRole = userData.userRole;
         console.log(req.session.userRole);
         req.session.save();
+        let user = {
+          userName: req.session.userName,
+          userId: req.session.userId
+        };
         if (req.session.userRole === "admin") {
           res.render("admin", {
             msg: "Welcome Admin!",
-            user: req.session.userName
+            user: user
           });
         } else {
           res.render("index", {
             msg: "Welcome to H-town Brews!",
-            user: req.session.userName
+            user: user
           });
         }
       }
