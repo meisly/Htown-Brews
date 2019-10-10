@@ -45,7 +45,6 @@ module.exports = function(app) {
           user = req.session.userName;
         }
         const beerPromise = results.map(beer => {
-          console.log(beer.dataValues.id);
           return db.reviews
             .findAll({
               where: { id: beer.dataValues.id },
@@ -68,7 +67,6 @@ module.exports = function(app) {
             data: beers,
             user: user
           });
-          console.log(JSON.stringify(beers, null, 2));
         });
       });
   });
