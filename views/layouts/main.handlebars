@@ -19,8 +19,8 @@
     <div class="nav-wrapper container"><a id="logo-container" href="/" class="brand-logo">H-town Brews</a>
       <ul class="right hide-on-med-and-down">
         {{#if user}}
-        <li>
-           Welcome {{user}}
+        <li id="user-info" data-userId={{user.userId}}>
+           Welcome {{user.userName}}
         </li>
         {{/if}}
         {{#unless user}}
