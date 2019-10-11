@@ -92,7 +92,6 @@ module.exports = function (app) {
           include: [{ model: db.beers }]
         })
         .then(results => {
-          console.log(JSON.stringify(results, null, 2));
           res.render("profile-page", {
             user: user,
             data: results

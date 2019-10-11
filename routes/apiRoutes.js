@@ -90,8 +90,24 @@ module.exports = function(app) {
     });
   });
   app.get("/api/user/:id", (req, res) => {
-    controlFunctions.findReviewAuthor(req.params.id, result => {
+    controlFunctions.findAuthor(req.params.id, result => {
       res.json(result);
+    });
+  });
+  app.put("/api/user/:id", (req, res) => {
+    console.table(req.body);
+    console.log("LINE 98");
+    let reqObj = {
+      userId: req.params.id,
+      newUrl: req.body.newUrl
+    };
+    console.table(reqObj);
+    controlFunctions.newProfilePic(reqObj, result => {
+      if (result !== "404") {
+        res.sendStatus("200");
+      } else {
+        res.sendStatus("404");
+      }
     });
   });
 

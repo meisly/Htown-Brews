@@ -72,6 +72,19 @@ label.light-txt-input.active.center {
 .landing-search {
   padding: 1rem;
 }
+/* ################################## user Page  #################################### */
+.userImage {
+  max-width: 200px;
+  max-height: 200px;
+}
+.smallUserImage {
+  max-width: 50px;
+  max-height: 50px;
+}
+.vanity {
+  justify-content: center;
+  display:block;
+}
 /* ################################## admin Page #################################### */
 .addMenu {
   background-color: #ffffff;
