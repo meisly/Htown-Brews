@@ -40,17 +40,14 @@ $(document).ready(function() {
       reviewParagraph: $("#userreview").val(),
       beerid: $("#writereview").data("id")
     };
+    console.table(reviewInfo);
     $.ajax({
       url: "/api/beer/" + reviewInfo.beerid,
       method: "PUT"
     }).then(result => {
-      if (result === 200) {
-        $.post("/api/review", reviewInfo, () => {
-          $(".modal").modal("close");
-        });
-      } else {
-        window.location.reload();
-      }
+      $.post("/api/review", reviewInfo, () => {
+        $(".modal").modal("close");
+      });
     });
   });
 });

@@ -7,7 +7,6 @@ module.exports = function(db) {
       }
     });
     callback(results);
-    console.table(results);
   };
   this.beerById = async (beerId, callback) => {
     results = await db.beers.findOne({
@@ -44,7 +43,6 @@ module.exports = function(db) {
     callback(result);
   };
   this.addReview = async (reviewObj, callback) => {
-    //add review to table
     let result = await db.reviews.create({
       reviewRating: reviewObj.rating,
       reviewParagraph: reviewObj.paragraph,
@@ -162,6 +160,9 @@ module.exports = function(db) {
   /*****************************************************Check Sessions*****************************************************/
   this.login = async (req, callback) => {
     const post = req.body;
+    if (post.password === undefined) {
+      callback(404);
+    }
     let userSalt = await this.getSalt(post.userName);
     let name = post.userName;
     let pass = this.sha512(post.password, userSalt);
@@ -173,14 +174,13 @@ module.exports = function(db) {
       attributes: ["id", "userName", "role"]
     });
     if (results) {
-      console.log("line 128");
       let userData = {
         userName: results.dataValues.userName,
         userID: results.dataValues.id,
         userRole: results.dataValues.role
       };
       if (userData.userID === null) {
-        console.log("error");
+        callback(404);
         return;
       } else {
         callback(userData);
