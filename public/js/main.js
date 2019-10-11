@@ -1,4 +1,6 @@
 $(document).ready(function() {
+
+
   //initialize login modal
   $(".modal").modal();
   $(".sidenav-trigger").on("click", () => {

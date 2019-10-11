@@ -2,7 +2,6 @@ $(document).ready(function() {
   // initialize dropdown
   $(".collapsible").collapsible();
   // Materialize code to add data for autocomplete search.
-  // Replace Data with our data from beers db
   $.ajax("/api/", {
     type: "GET"
   }).then(results => {
@@ -47,6 +46,7 @@ $(document).ready(function() {
     }).then(result => {
       $.post("/api/review", reviewInfo, () => {
         $(".modal").modal("close");
+        window.location.reload();
       });
     });
   });
