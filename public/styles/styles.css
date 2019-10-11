@@ -72,14 +72,28 @@ label.light-txt-input.active.center {
 /* ################################## admin Page #################################### */
 .addMenu {
   background-color: #ffffff;
+  text-align: center;
 }
 .spacer {
-  padding-bottom: 50%;
+  padding-bottom: 40%;
 }
 .warning-text {
   color: #ff0000;
 }
-
+.admin-btn {
+  margin: 1%;
+  background-color: #5d4037 !important;
+}
+.admin-input {
+  margin-left: 5%;
+  width: 90%;
+}
+.delete-field {
+  margin-top: 1%;
+}
+.delete-body {
+  margin-top: 30%;
+}
 /* ################################## SignUp Page ################################### */
 .signupbox{
   background-color: rgb(216, 203, 186);
@@ -296,4 +310,10 @@ label:nth-of-type(1):hover  ~ .text:before{
 
 #ratingheader{
   font-size: 14px;
+}
+@media (min-width: 1000px) and (max-width: 1140px){
+  .spacer {
+    padding-bottom: 80%;
+  }
+
 }
