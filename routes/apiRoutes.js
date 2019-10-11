@@ -31,7 +31,7 @@ module.exports = function(app) {
   });
   app.delete("/api/beer/:id", (req, res) => {
     controlFunctions.deleteBeer(req.params.id, result => {
-      res.sendStatus(200);
+      res.sendStatus("200");
     });
   });
   app.post("/api/beer", (req, res) => {
@@ -77,9 +77,9 @@ module.exports = function(app) {
   app.put("/api/beer/:id", (req, res) => {
     controlFunctions.calcRating(req.params.id, result => {
       if (result) {
-        res.sendStatus(200);
+        res.sendStatus("200");
       } else {
-        res.sendStatus(404);
+        res.sendStatus("404");
       }
     });
   });
