@@ -94,7 +94,6 @@ module.exports = function(app) {
     });
   });
   app.get("/api/user/:id", (req, res) => {
-    console.log("api routes should return author info");
     controlFunctions.findReviewAuthor(req.params.id, result => {
       res.json(result);
     });
@@ -106,7 +105,6 @@ module.exports = function(app) {
         req.session.userId = userData.userID;
         req.session.userName = userData.userName;
         req.session.userRole = userData.userRole;
-        console.log(req.session.userRole);
         req.session.save();
         let user = {
           userName: req.session.userName,
