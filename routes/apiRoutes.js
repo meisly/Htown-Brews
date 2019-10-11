@@ -151,7 +151,11 @@ module.exports = function(app) {
 
   app.post("/api/newUser", (req, res) => {
     controlFunctions.newUserQuery(req, res, result => {
-      res.json(result);
+      if (result !== "404") {
+        res.json(result);
+      } else {
+        res.sendStatus("404");
+      }
     });
   });
 };
