@@ -131,6 +131,24 @@ label.light-txt-input.active.center {
 .review-collapsible {
   border-top: none;
 }
+
+#writereview {
+  padding-right: 0px;
+}
+
+#beerresultcard{
+  width: 75% !important;
+}
+
+#re-search {
+  width: 45px;
+  height: 3rem !important;
+}
+
+#main-search {
+  width: 45px;
+  height: 3rem !important;
+}
 /* ################################### Form CSS ################################### */
 .input-field input[type=text]:focus + label, .materialize-textarea:focus:not([readonly]) + label {
   color: #5d4037 !important;
