@@ -67,7 +67,6 @@ module.exports = function(app) {
         });
 
         Promise.all(beerPromise).then(beers => {
-          console.log(JSON.stringify(beers, null, 2));
           let user = {
             userName: req.session.userName,
             userId: req.session.userId
