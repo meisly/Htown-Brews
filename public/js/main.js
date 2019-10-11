@@ -1,6 +1,4 @@
 $(document).ready(function() {
-
-
   //initialize login modal
   $(".modal").modal();
   $(".login-modal-trigger").on("click", () => {

@@ -38,11 +38,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     createdAt: {
       type: DataTypes.DATE,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP")
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP")
     }
   });
   beers.associate = function (models) {

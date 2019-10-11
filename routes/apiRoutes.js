@@ -51,10 +51,6 @@ module.exports = function(app) {
   });
   // post new revies
   app.post("/api/review", (req, res) => {
-    /*takes user from sessions and and rating, paragraph, and beer id from front-end elements
-    will need a review obj and the beer itself so it can re-render then page I'm thinking passing
-    2 objects as an array 0 being the review info and 1 being the beer info doing this lets us
-    return the user to an updated page of the beer they just reviewed*/
     let reviewObj = {
       rating: req.body.reviewRating,
       paragraph: req.body.reviewParagraph,
@@ -68,11 +64,11 @@ module.exports = function(app) {
       };
       if (result.affectedRows !== 0) {
         controlFunctions.beerById(reviewObj.beerId, beerResult => {
-          res.render("beerReviews", {
+          res.render("search-results", {
             user: user,
             beer: beerResult
           });
-        })
+        });
       } else {
         res.render("404");
       }
@@ -82,8 +78,10 @@ module.exports = function(app) {
     controlFunctions.calcRating(req.params.id, result => {
       if (result) {
         res.sendStatus(200);
+        console.log("YEEEEEEEEEEET");
       } else {
         res.sendStatus(404);
+        console.log("YEEEEEEEEEEET");
       }
     });
   });
@@ -121,6 +119,8 @@ module.exports = function(app) {
             user: user
           });
         }
+      } else {
+        res.sendStatus(404);
       }
     });
   });
