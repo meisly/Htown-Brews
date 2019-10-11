@@ -111,7 +111,7 @@ module.exports = function(db) {
     if (result) {
       return result.dataValues.salt;
     } else {
-      console.log("err retrying");
+      return undefined;
     }
   };
   this.genRandomString = length => {
@@ -160,30 +160,31 @@ module.exports = function(db) {
   /*****************************************************Check Sessions*****************************************************/
   this.login = async (req, callback) => {
     const post = req.body;
-    if (post.password === undefined) {
-      callback(404);
-    }
     let userSalt = await this.getSalt(post.userName);
-    let name = post.userName;
-    let pass = this.sha512(post.password, userSalt);
-    let results = await db.users.findOne({
-      where: {
-        userName: name,
-        password: pass.passwordHash
-      },
-      attributes: ["id", "userName", "role"]
-    });
-    if (results) {
-      let userData = {
-        userName: results.dataValues.userName,
-        userID: results.dataValues.id,
-        userRole: results.dataValues.role
-      };
-      if (userData.userID === null) {
-        callback(404);
-        return;
-      } else {
-        callback(userData);
+    if (userSalt === undefined) {
+      callback("404");
+    } else {
+      let name = post.userName;
+      let pass = this.sha512(post.password, userSalt);
+      let results = await db.users.findOne({
+        where: {
+          userName: name,
+          password: pass.passwordHash
+        },
+        attributes: ["id", "userName", "role"]
+      });
+      if (results) {
+        let userData = {
+          userName: results.dataValues.userName,
+          userID: results.dataValues.id,
+          userRole: results.dataValues.role
+        };
+        if (userData.userID === null) {
+          callback("404");
+          return;
+        } else {
+          callback(userData);
+        }
       }
     }
   };
