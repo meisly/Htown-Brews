@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     beer_description: {
-      type: DataTypes.STRING,
-      len: [1, 2000],
+      type: DataTypes.TEXT,
+      len: [1, 10000],
       allowNull: false,
       validate: {
         notEmpty: true
