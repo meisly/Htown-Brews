@@ -1,55 +1,36 @@
 <div class="content">
     <div class="section no-pad-bot" id="index-banner">
-        <div class="container">
-            <h3>Welcome {{user.userName}}</h3>
+        {{!-- Search Bar --}}
+        <div class="row">
+            <div class=" col m4 s8 offset-m8 offset-s2">
+                <div class="row valign-wrapper">
+                    <div class=" col s11 landing-search input-field">
+                        <input type="text" id="autocomplete-input-small" class="autocomplete white-text brown darken-1">
+                        <label class="light-txt-input center" for="autocomplete-input">Find more beers</label>
+                    </div>
+                    <button id="re-search" class="search-btn col m1 s2 waves-effect waves-light brown center btn"><i
+                            class="material-icons right">search</i></button>
+                </div>
+            </div>
+        </div>
+        <div class="container section-main">
+            <div class="row center" style="padding: 1rem">
+                <h3>Review History</h3>
+                <h3>....just in case you can't remember</h3>
+            </div>
             {{!-- Beers Reviews --}}
             {{#each data}}
             <div class="row">
                 <div class="col s12">
                     <div class="row">
-                        <div class="col s12 m8">
-                            <h3 class="header">{{beer.beer_name}}</h3>
+                        <div class="col s12 m10 offset-m1">
                             <div class="card horizontal">
-                                <div class="card-image">
-                                    <img class="search-result-img" src="/img/beer-pint-hazy-light.png">
-                                </div>
+                                <h5 class="header">{{beer.beer_name}}</h5>
                                 <div class="card-stacked">
                                     <div class="card-content">
-                                        <p>Style: {{beer.beer_type}}</p>
-                                        <p> Description: {{beer.beer_description}}</p>
-                                        <p>Average Rating: {{beer.avg_rating}}</p>
-                                    </div>
-                                    <div class="card-action row">
-
-                                        <ul class="collapsible review-collapsible">
-                                            <li>
-                                                <a class="reviews-header collapsible-header col s8" data-id="{{beer.id}}">Read Reviews</a>
-                                                <a class="col s3" href="#" id="writereview" data-id="{{beer.id}}">
-                                                    Write a Review
-                                                </a>
-                                                <div class="collapsible-body">
-                                                    {{#unless reviews}}
-                                                    <p>This beer hasn't been reviewed yet</p>
-                                                    {{/unless}}
-                                                    {{#each reviews}}
-                                                    <div class="row">
-                                                        <br>
-                                                        <div class="col s12">
-                                                            <div>{{user.userName}} gives this beer {{reviewRating}} out of 5 dancing ninjas</div>
-                                                            <div class="beer-rev-info">
-                                                                <div class="beer-rev-body" data-id={{beer.id}}>
-                                                                    <p>They say:</p>
-                                                                        <p>{{reviewParagraph}}<br>
-                                                                    </p>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {{/each}}
-                                                </div>
-
-                                            </li>
-                                        </ul>
+                                        <p>Date: {{createdAt}}</p>
+                                        <p>Rating: {{reviewRating}}</p>
+                                        <p> {{reviewParagraph}}</p>
                                     </div>
 
                                 </div>
@@ -61,6 +42,7 @@
                 </div>
             </div>
             {{/each}}
+
         </div>
     </div>
 

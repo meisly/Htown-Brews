@@ -92,11 +92,12 @@ module.exports = function (app) {
           include: [{ model: db.beers }]
         })
         .then(results => {
-          console.log(results);
+          console.log(JSON.stringify(results, null, 2));
+          res.render("profile-page", {
+            user: user,
+            data: results
+          });
         });
-      res.render("profile-page", {
-        user: user
-      });
     } else {
       res.render("index", {
         msg: "Welcome to Htown Brews",
