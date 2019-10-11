@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     reviewParagraph: {
       type: DataTypes.STRING,
-      len: [1, 2000],
+      len: [1, 600],
       allowNull: false,
       validate: {
         notEmpty: true
