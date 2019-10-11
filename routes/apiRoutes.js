@@ -31,7 +31,7 @@ module.exports = function(app) {
   });
   app.delete("/api/beer/:id", (req, res) => {
     controlFunctions.deleteBeer(req.params.id, result => {
-      res.send(200);
+      res.sendStatus("200");
     });
   });
   app.post("/api/beer", (req, res) => {
@@ -45,7 +45,7 @@ module.exports = function(app) {
       if (result) {
         window.location.reload();
       } else {
-        res.json("404");
+        res.sendStatus("404");
       }
     });
   });
@@ -77,11 +77,9 @@ module.exports = function(app) {
   app.put("/api/beer/:id", (req, res) => {
     controlFunctions.calcRating(req.params.id, result => {
       if (result) {
-        res.sendStatus(200);
-        console.log("YEEEEEEEEEEET");
+        res.sendStatus("200");
       } else {
-        res.sendStatus(404);
-        console.log("YEEEEEEEEEEET");
+        res.sendStatus("404");
       }
     });
   });
@@ -99,7 +97,7 @@ module.exports = function(app) {
 
   app.post("/login", (req, res) => {
     controlFunctions.login(req, userData => {
-      if (userData) {
+      if (userData !== "404") {
         req.session.userId = userData.userID;
         req.session.userName = userData.userName;
         req.session.userRole = userData.userRole;
@@ -120,7 +118,7 @@ module.exports = function(app) {
           });
         }
       } else {
-        res.sendStatus(404);
+        res.sendStatus("404");
       }
     });
   });

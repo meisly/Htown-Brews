@@ -3,6 +3,9 @@ $(document).ready(function() {
 
   //initialize login modal
   $(".modal").modal();
+  $(".sidenav-trigger").on("click", () => {
+    $(".login-modal").modal("open");
+  });
   $(".login-modal-trigger").on("click", () => {
     $(".login-modal").modal("open");
   });
@@ -15,9 +18,14 @@ $(document).ready(function() {
       userName: $("#name").val(),
       password: $("#pass").val()
     };
-    $.post("/login", userInfo, () => {
+    $.post("/login", userInfo, (response, status) => {
+      console.log(status);
+      console.log(response);
       $(".modal").modal("close");
       window.location.reload();
+    }).catch(() => {
+      let err = "<p class='warning-text'>INVALID USERNAME OR PASSWORD</p>";
+      $(err).appendTo(".modal");
     });
   });
 });
