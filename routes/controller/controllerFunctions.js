@@ -202,6 +202,8 @@ module.exports = function(db) {
         } else {
           callback(userData);
         }
+      } else {
+        callback("404");
       }
     }
   };

@@ -139,6 +139,7 @@ module.exports = function(app) {
         } else {
           res.render("index", {
             msg: "Welcome to H-town Brews!",
+            msgTwo: "Search for beers to rate and review",
             user: user
           });
         }
