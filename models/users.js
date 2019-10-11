@@ -39,6 +39,13 @@ module.exports = (sequelize, DataTypes) => {
         notEmpty: true
       }
     },
+    profileUrl: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      validate: {
+        notEmpty: true
+      }
+    },
     createdAt: {
       type: DataTypes.DATE,
       defaultValue: sequelize.literal("CURRENT_TIMESTAMP")

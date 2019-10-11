@@ -51,12 +51,29 @@ module.exports = function(db) {
     });
     callback(result);
   };
-  this.findReviewAuthor = async (authorId, callback) => {
+  this.newProfilePic = async (userObj, callback) => {
+    let result = await db.users.update(
+      {
+        profileUrl: userObj.newUrl
+      },
+      {
+        where: {
+          id: userObj.userId
+        }
+      }
+    );
+    if (result) {
+      callback(result);
+    } else {
+      callback("404");
+    }
+  };
+  this.findAuthor = async (authorId, callback) => {
     let result = await db.users.findOne({
       where: {
         id: authorId
       },
-      attributes: ["username"]
+      attributes: ["username", "profileUrl"]
     });
     if (result) {
       callback(result);
