@@ -20,6 +20,7 @@ $(document).ready(function() {
       $(".modal").modal("close");
       window.location.reload();
     }).catch(() => {
+      $(".warning-text").remove();
       let err = "<p class='warning-text'>INVALID USERNAME OR PASSWORD</p>";
       $(err).appendTo(".modal");
     });
