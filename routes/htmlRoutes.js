@@ -100,8 +100,6 @@ module.exports = function(app) {
           ]
         })
         .then(result => {
-          console.log(JSON.stringify(result, null, 2))
-          
           let date = result.createdAt.toDateString();
           res.render("profile-page", {
             user: user,
