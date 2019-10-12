@@ -36,10 +36,13 @@
         {{/unless}}
       </ul>
 
-      <ul id="nav-mobile" class="sidenav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
+      {{#if user}}
+      <a href="/logout" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">close</i></a>
+      <a href="/user/{{user.userName}}" data-target="nav-mobile" class="sidenav-trigger mobile-profile"><i class="material-icons">person_pin</i></a>      
+      {{/if}}
+      {{#unless user}}
       <a href="#login" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">person</i></a>
+      {{/unless}}
     </div>
   </nav>
   <div class="home"></div>
