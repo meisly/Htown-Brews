@@ -10,7 +10,7 @@
   line-height: 2.5;
 }
 .section-main {
-  background-color: #9b776061
+  background-color: #b9947cc9;
 }
 /* ################################ MAIN.HANDLEBARS ################################# */
 
@@ -84,6 +84,13 @@ label.light-txt-input.active.center {
 .vanity {
   justify-content: center;
   display:block;
+}
+.profile-info p {
+  font: larger;
+  font-weight: bold;
+}
+.user-reviews a {
+  margin: 0.2rem;
 }
 /* ################################## admin Page #################################### */
 .addMenu {

@@ -37,6 +37,8 @@ $(document).ready(function() {
         window.location.reload();
       });
   });
+
+  //User image functions
   function appendUserImage(userId) {
     $.get("/api/user/" + userId, result => {
       let userImage =

@@ -89,12 +89,16 @@ module.exports = function (app) {
       db.reviews
         .findAll({
           where: { userId: user.userId },
-          include: [{ model: db.beers }]
+          include: [{ model: db.beers},{ model: db.users }]
         })
         .then(results => {
+          console.log(JSON.stringify(results, null, 2))
+          
+          let date = results[0].user.createdAt.toDateString();
           res.render("profile-page", {
             user: user,
-            data: results
+            data: results,
+            userDate: date
           });
         });
     } else {
