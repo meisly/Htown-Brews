@@ -18,7 +18,7 @@ $(document).ready(function() {
     };
     $.post("/login", userInfo, (response, status) => {
       $(".modal").modal("close");
-      window.location.reload();
+      window.location.href = "/";
     }).catch(() => {
       $(".warning-text").remove();
       let err = "<p class='warning-text'>INVALID USERNAME OR PASSWORD</p>";
