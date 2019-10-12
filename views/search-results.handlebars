@@ -17,7 +17,7 @@
             </div>
             {{!--Review Modal--}}
             <div class="home"></div>
-            <div id="#reviewmodal" class="modal">
+            <div id="#reviewmodal" class="modal reviewmodal">
                 <h5 class="reviewmodal-close">&#10005;</h5>
                 <div class="reviewmodal-content center">
                     <h4>Write your Review!</h4>
@@ -62,7 +62,7 @@
             <div class="row">
                 <div class="col s12">
                     <div class="row">
-                        <div class="col s12 m8" id="beerresultcard">
+                        <div class="col s12 m10" id="beerresultcard">
                             <h3 class="header">{{beer.beer_name}}</h3>
                             <div class="card horizontal">
                                 <div class="card-image">
@@ -70,9 +70,9 @@
                                 </div>
                                 <div class="card-stacked">
                                     <div class="card-content">
-                                        <p>Style: {{beer.beer_type}}</p>
-                                        <p> Description: {{beer.beer_description}}</p>
-                                        <p>Average Rating: {{beer.avg_rating}}</p>
+                                        <p><strong>Style: </strong>{{beer.beer_type}}</p>
+                                        <p><strong>Description: </strong>{{beer.beer_description}}</p>
+                                        <p><strong>Average Rating: </strong>{{beer.avg_rating}}</p>
                                     </div>
                                     <div class="card-action row result-body">
 
