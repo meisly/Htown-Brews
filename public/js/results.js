@@ -27,11 +27,11 @@ $(document).ready(function() {
     $(".rating-system4").data("rating", $(event.target).data("star"));
   });
   $(".result-body").on("click", "#writereview", (event) => {
-    $(".modal").modal("open");
+    $(".reviewmodal").modal("open");
     storedBeerId = $(event.target).data("id");
   });
   $(".reviewmodal-close").on("click", () => {
-    $(".modal").modal("close");
+    $(".reviewmodal-close").modal("close");
   });
   $(".reviewmodal-submit").on("click", () => {
     event.preventDefault();
