@@ -89,18 +89,23 @@ module.exports = function(app) {
         userName: req.session.userName,
         userId: req.session.userId
       };
-      db.reviews
-        .findAll({
-          where: { userId: user.userId },
-          include: [{ model: db.beers},{ model: db.users }]
+      db.users
+        .findOne({
+          where: { id: user.userId },
+          include: [
+            {
+              model: db.reviews,
+              include: [{ model: db.beers }]
+            }
+          ]
         })
-        .then(results => {
-          console.log(JSON.stringify(results, null, 2))
+        .then(result => {
+          console.log(JSON.stringify(result, null, 2))
           
-          let date = results[0].user.createdAt.toDateString();
+          let date = result.createdAt.toDateString();
           res.render("profile-page", {
             user: user,
-            data: results,
+            data: result.reviews,
             userDate: date
           });
         });
