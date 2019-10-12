@@ -20,9 +20,3 @@ $(document).ready(function() {
   });
 });
 
-// function userClass() {
-//   this.userInfo = this.findUserInfo();
-//   this.findUserInfo = () => {
-
-//   }
-// }
