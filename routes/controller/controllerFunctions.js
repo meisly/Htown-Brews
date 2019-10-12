@@ -31,8 +31,6 @@ module.exports = function(db) {
     });
     callback(result);
   };
-  /*will calculate the average rating of the beer by taking the review scores from the reviews table
-  and calcing their average*/
   this.beerReviews = async (beerId, callback) => {
     //lists reviews by beer id
     let result = await db.reviews.findAll({
@@ -171,7 +169,7 @@ module.exports = function(db) {
     if (result) {
       callback(result);
     } else {
-      console.log("err");
+      callback("404");
     }
   };
   /*****************************************************Check Sessions*****************************************************/
@@ -202,6 +200,8 @@ module.exports = function(db) {
         } else {
           callback(userData);
         }
+      } else {
+        callback("404");
       }
     }
   };

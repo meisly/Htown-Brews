@@ -30,9 +30,13 @@ module.exports = function(app) {
     });
   });
   app.delete("/api/beer/:id", (req, res) => {
-    controlFunctions.deleteBeer(req.params.id, result => {
-      res.sendStatus("200");
-    });
+    if (req.params.id === undefined) {
+      res.sendStatus("404");
+    } else {
+      controlFunctions.deleteBeer(req.params.id, result => {
+        res.sendStatus("200");
+      });
+    }
   });
   app.post("/api/beer", (req, res) => {
     let beerObj = {
@@ -85,23 +89,28 @@ module.exports = function(app) {
   });
   //grab all reviews by the id of a specific beer
   app.get("/api/review/:id", (req, res) => {
-    controlFunctions.beerReviews(req.params.id, result => {
-      res.json(result);
-    });
+    if (req.params.id === undefined) {
+      res.sendStatus("404");
+    } else {
+      controlFunctions.beerReviews(req.params.id, result => {
+        res.json(result);
+      });
+    }
   });
   app.get("/api/user/:id", (req, res) => {
-    controlFunctions.findAuthor(req.params.id, result => {
-      res.json(result);
-    });
+    if (req.params.id === undefined) {
+      res.sendStatus("404");
+    } else {
+      controlFunctions.findAuthor(req.params.id, result => {
+        res.json(result);
+      });
+    }
   });
   app.put("/api/user/:id", (req, res) => {
-    console.table(req.body);
-    console.log("LINE 98");
     let reqObj = {
       userId: req.params.id,
       newUrl: req.body.newUrl
     };
-    console.table(reqObj);
     controlFunctions.newProfilePic(reqObj, result => {
       if (result !== "404") {
         res.sendStatus("200");
@@ -130,6 +139,7 @@ module.exports = function(app) {
         } else {
           res.render("index", {
             msg: "Welcome to H-town Brews!",
+            msgTwo: "Search for beers to rate and review",
             user: user
           });
         }
@@ -141,7 +151,11 @@ module.exports = function(app) {
 
   app.post("/api/newUser", (req, res) => {
     controlFunctions.newUserQuery(req, res, result => {
-      res.json(result);
+      if (result !== "404") {
+        res.json(result);
+      } else {
+        res.sendStatus("404");
+      }
     });
   });
 };

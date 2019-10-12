@@ -1,11 +1,11 @@
 var db = require("../models");
 const controller = require("./controller/controllerFunctions");
-module.exports = function (app) {
+module.exports = function(app) {
   // Load index page
   // Access the session as req.session
   let controlFunctions = new controller(db);
 
-  app.get("/", function (req, res) {
+  app.get("/", function(req, res) {
     if (req.session.userId) {
       let user = {
         userName: req.session.userName,
@@ -14,24 +14,27 @@ module.exports = function (app) {
       if (req.session.userRole === "admin") {
         res.render("admin", {
           msg: "Welcome admin",
+          msgTwo: "Search for beers to rate and review",
           user: user
         });
       } else {
         res.render("index", {
           msg: "Welcome to H-town Brews!",
+          msgTwo: "Search for beers to rate and review",
           user: user
         });
       }
     } else {
       res.render("index", {
         msg: "Welcome to H-town Brews!",
+        msgTwo: "Login to rate and review or browse the local beers as a guest",
         user: null
       });
     }
   });
 
   // display search results
-  app.get("/results/:searchTerm?", function (req, res) {
+  app.get("/results/:searchTerm?", function(req, res) {
     let search = req.params.searchTerm;
     db.beers
       .findAll({
@@ -79,7 +82,7 @@ module.exports = function (app) {
       });
   });
   //Profile Page
-  app.get("/user/:username?", function (req, res) {
+  app.get("/user/:username?", function(req, res) {
     let user = null;
     if (req.session.userId) {
       user = {
@@ -100,13 +103,13 @@ module.exports = function (app) {
     } else {
       res.render("index", {
         msg: "Welcome to Htown Brews",
+        msgTwo: "Login to rate and review or browse the local beers as a guest",
         user: user
       });
-    };
-
+    }
   });
   // Signup Page
-  app.get("/signup", function (req, res) {
+  app.get("/signup", function(req, res) {
     if (req.session.userId) {
       let user = {
         userName: req.session.userName,
@@ -152,11 +155,14 @@ module.exports = function (app) {
         };
         res.render("index", {
           msg: "Welcome to H-town Brews!",
+          msgTwo: "Search for beers to rate and review",
           user: user
         });
       } else {
         res.render("index", {
           msg: "Welcome to H-town Brews!",
+          msgTwo:
+            "Login to rate and review or browse the local beers as a guest",
           user: null
         });
       }
@@ -173,11 +179,14 @@ module.exports = function (app) {
       if (req.session.userId) {
         res.render("index", {
           msg: "Welcome to H-town Brews!",
+          msgTwo: "Search for beers to rate and review",
           user: user
         });
       } else {
         res.render("index", {
           msg: "Welcome to H-town Brews!",
+          msgTwo:
+            "Login to rate and review or browse the local beers as a guest",
           user: null
         });
       }
@@ -187,12 +196,13 @@ module.exports = function (app) {
     req.session.destroy();
     res.render("index", {
       msg: "Welcome to H-town Brews!",
+      msgTwo: "Login to rate and review or browse the local beers as a guest",
       user: null
     });
   });
 
   // Render 404 page for any unmatched routes
-  app.get("*", function (req, res) {
+  app.get("*", function(req, res) {
     let user = {
       userName: req.session.userName,
       userId: req.session.userId

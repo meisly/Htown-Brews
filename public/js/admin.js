@@ -19,6 +19,7 @@ $(document).ready(function() {
     $.get("/api/beer/" + beerId, result => {
       $(".warning-text").detach();
       if (result === null) {
+        $(".warning-text").remove();
         let domString = "<p class='warning-text'> InvalidItem</p>";
         $(domString).appendTo(".main-body");
       } else {
