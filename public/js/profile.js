@@ -32,10 +32,12 @@ $(document).ready(function() {
       data: ajaxVar
     })
       .then(results => {
-        window.location.reload();
+        let userID = $("#user-info").data("userid");
+        window.location.href = "/user/" + userID;
       })
       .catch(() => {
-        window.location.reload();
+        let userID = $("#user-info").data("userid");
+        window.location.href = "/user/" + userID;
       });
   });
   // Edit and Delete Reviews
@@ -63,7 +65,9 @@ $(document).ready(function() {
         "<img class='userImage' src='" + result.profileUrl + "' alt='profile'>";
       $(userImage).appendTo(".profile-image-zone");
     }).catch(() => {
-      window.location.reload();
+
+      let userID = $("#user-info").data("userid");
+      window.location.href = "/user/" + userID;
     });
   }
 });
