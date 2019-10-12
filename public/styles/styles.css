@@ -5,7 +5,9 @@
 .content{
   min-height: 100vh;
 }
-
+strong {
+  font-weight: bold;
+}
 .list-group-item {
   line-height: 2.5;
 }

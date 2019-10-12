@@ -1,11 +1,11 @@
 var db = require("../models");
 const controller = require("./controller/controllerFunctions");
-module.exports = function(app) {
+module.exports = function (app) {
   // Load index page
   // Access the session as req.session
   let controlFunctions = new controller(db);
 
-  app.get("/", function(req, res) {
+  app.get("/", function (req, res) {
     if (req.session.userId) {
       let user = {
         userName: req.session.userName,
@@ -34,7 +34,7 @@ module.exports = function(app) {
   });
 
   // display search results
-  app.get("/results/:searchTerm?", function(req, res) {
+  app.get("/results/:searchTerm?", function (req, res) {
     let search = req.params.searchTerm;
     db.beers
       .findAll({
@@ -47,10 +47,6 @@ module.exports = function(app) {
         }
       })
       .then(results => {
-        let user = null;
-        if (req.session.userId) {
-          user = req.session.userName;
-        }
         const beerPromise = results.map(beer => {
           return db.reviews
             .findAll({
@@ -70,10 +66,13 @@ module.exports = function(app) {
         });
 
         Promise.all(beerPromise).then(beers => {
-          let user = {
-            userName: req.session.userName,
-            userId: req.session.userId
-          };
+          let user = null;
+          if (req.session.userId) {
+            user = {
+              userName: req.session.userName,
+              userId: req.session.userId
+            };
+          }
           res.render("search-results", {
             data: beers,
             user: user
@@ -82,7 +81,7 @@ module.exports = function(app) {
       });
   });
   //Profile Page
-  app.get("/user/:username?", function(req, res) {
+  app.get("/user/:username?", function (req, res) {
     let user = null;
     if (req.session.userId) {
       user = {
@@ -116,7 +115,7 @@ module.exports = function(app) {
     }
   });
   // Signup Page
-  app.get("/signup", function(req, res) {
+  app.get("/signup", function (req, res) {
     if (req.session.userId) {
       let user = {
         userName: req.session.userName,
@@ -209,7 +208,7 @@ module.exports = function(app) {
   });
 
   // Render 404 page for any unmatched routes
-  app.get("*", function(req, res) {
+  app.get("*", function (req, res) {
     let user = {
       userName: req.session.userName,
       userId: req.session.userId
