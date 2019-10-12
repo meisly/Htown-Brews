@@ -19,7 +19,7 @@ app.use(
     cookie: { secure: true ,maxAge: 60000 },
     saveUninitialized: true,
     resave: false
-  });
+  })
 );
 
 // Handlebars
