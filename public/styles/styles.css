@@ -36,7 +36,9 @@
 }
 
 /* ########################## Landing Page/index.handlebars ########################## */
-
+.mobile-profile {
+  left: -11%;
+}
 .landing-main {
   background-color: #9b776061;
 }
@@ -331,5 +333,23 @@ label:nth-of-type(1):hover  ~ .text:before{
   .spacer {
     padding-bottom: 80%;
   }
+
+}
+@media (min-width: 320px) and (max-width: 480px){
+  h1 {
+    font-size: 2rem;
+  }
+  h5 {
+    font-size: 1.1rem;
+  }
+  .brand-logo {
+    font-size: 1.4rem !important;
+  }
+}
+@media (min-width: 601px) and (max-width: 7680px) {}
+  .mobile-profile {
+    left: 0%;
+  }
+
 
 }
