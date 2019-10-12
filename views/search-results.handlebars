@@ -27,19 +27,19 @@
                             <div class="rating-system4">
                                 <h3 id="ratingheader">Select your rating</h3>
                                 <input type="radio" name='rate4' id="star5_4" />
-                                <label class="ratinglabel" for="star5_4"></label>
+                                <label class="ratinglabel" for="star5_4" data-star="5"></label>
 
                                 <input type="radio" name='rate4' id="star4_4" />
-                                <label class="ratinglabel" for="star4_4"></label>
+                                <label class="ratinglabel" for="star4_4" data-star="4"></label>
 
                                 <input type="radio" name='rate4' id="star3_4" />
-                                <label class="ratinglabel" for="star3_4"></label>
+                                <label class="ratinglabel" for="star3_4" data-star="3"></label>
 
                                 <input type="radio" name='rate4' id="star2_4" />
-                                <label class="ratinglabel" for="star2_4"></label>
+                                <label class="ratinglabel" for="star2_4" data-star="2"></label>
 
                                 <input type="radio" name='rate4' id="star1_4" />
-                                <label class="ratinglabel" for="star1_4"></label>
+                                <label class="ratinglabel" for="star1_4" data-star="1"></label>
                             </div>
                         </div>
                         <br>
@@ -62,7 +62,7 @@
             <div class="row">
                 <div class="col s12">
                     <div class="row">
-                        <div class="col s12 m8">
+                        <div class="col s12 m8" id="beerresultcard">
                             <h3 class="header">{{beer.beer_name}}</h3>
                             <div class="card horizontal">
                                 <div class="card-image">
@@ -74,7 +74,7 @@
                                         <p> Description: {{beer.beer_description}}</p>
                                         <p>Average Rating: {{beer.avg_rating}}</p>
                                     </div>
-                                    <div class="card-action row">
+                                    <div class="card-action row result-body">
 
                                         <ul class="collapsible review-collapsible">
                                             <li>
@@ -88,8 +88,10 @@
                                                     {{/unless}}
                                                     {{#each reviews}}
                                                     <div class="row">
+                                                        <br>
                                                         <div class="col s12">
-                                                            <div>{{user.userName}} gives this beer {{reviewRating}} out of 5 dancing ninjas</div>
+                                                            <img src={{user.profileUrl}} alt="profile-image" class="smallUserImage">
+                                                            <div>{{user.userName}} gives this beer {{reviewRating}} out of 5</div>
                                                             <div class="beer-rev-info">
                                                                 <div class="beer-rev-body" data-id={{beer.id}}>
                                                                     <p>They say:</p>
@@ -113,8 +115,6 @@
                         <div class="col hide-in-small s1 m4">stuff</div>
                     </div>
                 </div>
-
-
             </div>
             {{/each}}
             {{#unless data}}

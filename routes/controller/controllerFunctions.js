@@ -7,7 +7,6 @@ module.exports = function(db) {
       }
     });
     callback(results);
-    console.table(results);
   };
   this.beerById = async (beerId, callback) => {
     results = await db.beers.findOne({
@@ -32,8 +31,6 @@ module.exports = function(db) {
     });
     callback(result);
   };
-  /*will calculate the average rating of the beer by taking the review scores from the reviews table
-  and calcing their average*/
   this.beerReviews = async (beerId, callback) => {
     //lists reviews by beer id
     let result = await db.reviews.findAll({
@@ -44,7 +41,6 @@ module.exports = function(db) {
     callback(result);
   };
   this.addReview = async (reviewObj, callback) => {
-    //add review to table
     let result = await db.reviews.create({
       reviewRating: reviewObj.rating,
       reviewParagraph: reviewObj.paragraph,
@@ -53,12 +49,29 @@ module.exports = function(db) {
     });
     callback(result);
   };
-  this.findReviewAuthor = async (authorId, callback) => {
+  this.newProfilePic = async (userObj, callback) => {
+    let result = await db.users.update(
+      {
+        profileUrl: userObj.newUrl
+      },
+      {
+        where: {
+          id: userObj.userId
+        }
+      }
+    );
+    if (result) {
+      callback(result);
+    } else {
+      callback("404");
+    }
+  };
+  this.findAuthor = async (authorId, callback) => {
     let result = await db.users.findOne({
       where: {
         id: authorId
       },
-      attributes: ["username"]
+      attributes: ["username", "profileUrl"]
     });
     if (result) {
       callback(result);
@@ -66,8 +79,43 @@ module.exports = function(db) {
       callback("404");
     }
   };
-  this.userReviews = async user => {
-    //lists reviews where review_author = user
+  this.calcRating = async (beerID, callback) => {
+    let beerResult = await db.beers.findOne({
+      where: {
+        id: beerID
+      },
+      attributes: ["avg_rating"]
+    });
+    if (beerResult) {
+      let beerReviewScores = await db.reviews.findAll({
+        where: {
+          beerId: beerID
+        },
+        attributes: ["reviewRating"]
+      });
+      if (beerReviewScores) {
+        let scoreArr = [];
+        scoreArr.push(beerResult.dataValues.avg_rating);
+        beerReviewScores.forEach(i => {
+          scoreArr.push(i.dataValues.reviewRating);
+        });
+        let ratingSum = scoreArr.reduce((total, currentValue) => {
+          return total + currentValue;
+        });
+        ratingSum /= scoreArr.length;
+        let finalPush = await db.beers.update(
+          {
+            avg_rating: ratingSum
+          },
+          {
+            where: {
+              id: beerID
+            }
+          }
+        );
+        callback(finalPush);
+      }
+    }
   };
   //***************************************************password validation**************************************************** */
   this.getSalt = async username => {
@@ -75,12 +123,10 @@ module.exports = function(db) {
       where: { userName: username },
       attributes: ["salt"]
     });
-    console.log(result.dataValues.salt);
     if (result) {
-      console.log(result.dataValues.salt);
       return result.dataValues.salt;
     } else {
-      console.log("err retrying");
+      return undefined;
     }
   };
   this.genRandomString = length => {
@@ -123,34 +169,39 @@ module.exports = function(db) {
     if (result) {
       callback(result);
     } else {
-      console.log("err");
+      callback("404");
     }
   };
   /*****************************************************Check Sessions*****************************************************/
   this.login = async (req, callback) => {
     const post = req.body;
     let userSalt = await this.getSalt(post.userName);
-    let name = post.userName;
-    let pass = this.sha512(post.password, userSalt);
-    let results = await db.users.findOne({
-      where: {
-        userName: name,
-        password: pass.passwordHash
-      },
-      attributes: ["id", "userName", "role"]
-    });
-    if (results) {
-      console.log("line 128");
-      let userData = {
-        userName: results.dataValues.userName,
-        userID: results.dataValues.id,
-        userRole: results.dataValues.role
-      };
-      if (userData.userID === null) {
-        console.log("error");
-        return;
+    if (userSalt === undefined) {
+      callback("404");
+    } else {
+      let name = post.userName;
+      let pass = this.sha512(post.password, userSalt);
+      let results = await db.users.findOne({
+        where: {
+          userName: name,
+          password: pass.passwordHash
+        },
+        attributes: ["id", "userName", "role"]
+      });
+      if (results) {
+        let userData = {
+          userName: results.dataValues.userName,
+          userID: results.dataValues.id,
+          userRole: results.dataValues.role
+        };
+        if (userData.userID === null) {
+          callback("404");
+          return;
+        } else {
+          callback(userData);
+        }
       } else {
-        callback(userData);
+        callback("404");
       }
     }
   };

@@ -19,9 +19,15 @@ $(window).on("load", () => {
       };
       $.post("/api/newUser", newUser, function(result) {
         window.location.href = "/";
+      }).catch(() => {
+        $(".warning-text").remove();
+        let err = "<p class='warning-text'>INVALID CREDTENTIALS PLEASE REVIEW</p>";
+        $(err).appendTo(".signup");
       });
     } else {
-      alert("Please fill out all fields!");
+      $(".warning-text").remove();
+      let err = "<p class='warning-text'>PLEASE FILL OUT ALL FIELDS!</p>";
+      $(err).appendTo(".signup");
     }
   });
 });

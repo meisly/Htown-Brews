@@ -17,8 +17,8 @@ module.exports = (sequelize, DataTypes) => {
       }
     },
     beer_description: {
-      type: DataTypes.STRING,
-      len: [1, 2000],
+      type: DataTypes.TEXT,
+      len: [1, 10000],
       allowNull: false,
       validate: {
         notEmpty: true
@@ -38,11 +38,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     createdAt: {
       type: DataTypes.DATE,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP")
     },
     updatedAt: {
       type: DataTypes.DATE,
-      defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
+      defaultValue: sequelize.literal("CURRENT_TIMESTAMP")
     }
   });
   beers.associate = function (models) {
