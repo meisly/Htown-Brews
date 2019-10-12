@@ -20,6 +20,7 @@ $(document).ready(function() {
     let searchTerm = $("#autocomplete-input-small").val();
     window.location.replace("/results/" + searchTerm);
   });
+  // Profile Pic
   $(".profile-btn").on("click", event => {
     event.preventDefault();
     let ajaxVar = {
@@ -39,6 +40,25 @@ $(document).ready(function() {
         window.location.href = "/user/" + userID;
       });
   });
+  // Edit and Delete Reviews
+  $(".edit-review").on("click", () => {
+    let reviewId = $(this).data("reviewId");
+    $.ajax(`/api/review/${reviewId}`, {
+      type: "PUT"
+    }).then(()=>{
+      window.location.reload();
+    })
+  });
+
+  $(".delete-review").on("click", function() {
+    let reviewId = $(this).data("reviewid");
+    $.ajax(`/api/review/${reviewId}`, {
+      type: "DELETE"
+    }).then(()=>{
+      window.location.reload();
+    });
+  });
+  //User image functions
   function appendUserImage(userId) {
     $.get("/api/user/" + userId, result => {
       let userImage =
