@@ -1,6 +1,4 @@
 $(document).ready(function() {
-
-
   //initialize login modal
   $(".modal").modal();
   $(".sidenav-trigger").on("click", () => {
@@ -19,11 +17,10 @@ $(document).ready(function() {
       password: $("#pass").val()
     };
     $.post("/login", userInfo, (response, status) => {
-      console.log(status);
-      console.log(response);
       $(".modal").modal("close");
       window.location.reload();
     }).catch(() => {
+      $(".warning-text").remove();
       let err = "<p class='warning-text'>INVALID USERNAME OR PASSWORD</p>";
       $(err).appendTo(".modal");
     });

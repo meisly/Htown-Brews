@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  let storedBeerId = undefined;
   // initialize dropdown
   $(".collapsible").collapsible();
   // Materialize code to add data for autocomplete search.
@@ -25,8 +26,9 @@ $(document).ready(function() {
     //sets rating value to parent div for later
     $(".rating-system4").data("rating", $(event.target).data("star"));
   });
-  $("#writereview").on("click", () => {
+  $(".result-body").on("click", "#writereview", (event) => {
     $(".modal").modal("open");
+    storedBeerId = $(event.target).data("id");
   });
   $(".reviewmodal-close").on("click", () => {
     $(".modal").modal("close");
@@ -37,7 +39,7 @@ $(document).ready(function() {
       id: $("#user-info").data("userid"),
       reviewRating: $(".rating-system4").data("rating"),
       reviewParagraph: $("#userreview").val(),
-      beerid: $("#writereview").data("id")
+      beerid: storedBeerId
     };
     console.table(reviewInfo);
     $.ajax({
