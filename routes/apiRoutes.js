@@ -2,12 +2,12 @@ const db = require("../models");
 
 const controller = require("./controller/controllerFunctions");
 
-module.exports = function(app) {
+module.exports = function (app) {
   // Get all examples
   let controlFunctions = new controller(db);
 
   //Gets data for autocomplete
-  app.get("/api", function(req, res) {
+  app.get("/api", function (req, res) {
     db.beers
       .findAll({
         attributes: ["beer_name", "beer_type", "brewrey"]
@@ -158,4 +158,12 @@ module.exports = function(app) {
       }
     });
   });
+  // DELETE or EDIT REVIEW
+  app.delete("/api/review/:reviewId", (req, res) => {
+    let reviewId = req.params.reviewId;
+    db.reviews.destroy({ where: { id: reviewId } }).then((result) => {
+      res.sendStatus(200);
+    });
+  });
 };
+
