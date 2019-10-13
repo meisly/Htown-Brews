@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 3000;
 const RedisStore = require('connect-redis')(session);
 
 if (process.env.REDIS_URL) {
-  let redis = require('redis').createClient(process.env.REDIS_URL);
+  redis = require('redis').createClient(process.env.REDIS_URL);
 } else {
   redis = require("redis").createClient();
 }
@@ -26,10 +26,10 @@ app.use(
   session({
     secret: "keyboard cat",
     cookie: { secure: true, maxAge: 60000 },
-    store:
-      process.env.NODE_ENV === "production"
-        ? new RedisStore({ client: redis, url: process.env.REDIS_URL })
-        : new RedisStore({ client: redis }),
+    // store:
+    //   process.env.NODE_ENV === "production"
+    //     ? new RedisStore({ client: redis, url: process.env.REDIS_URL })
+    //     : new RedisStore({ client: redis }),
     saveUninitialized: true,
     resave: false
   })
