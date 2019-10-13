@@ -28,7 +28,7 @@ app.use(
     cookie: { secure: true, maxAge: 60000 },
     store:
       process.env.NODE_ENV === "production"
-        ? new RedisStore({ url: process.env.REDIS_URL })
+        ? new RedisStore({ client: redis, url: process.env.REDIS_URL })
         : new RedisStore({ client: redis }),
     saveUninitialized: true,
     resave: false
