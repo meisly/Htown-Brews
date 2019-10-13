@@ -30,7 +30,7 @@ app.use(
     //   process.env.NODE_ENV === "production"
     //     ? new RedisStore({ client: redis, url: process.env.REDIS_URL })
     //     : new RedisStore({ client: redis }),
-    saveUninitialized: true,
+    saveUninitialized: false,
     resave: false
   })
 );
