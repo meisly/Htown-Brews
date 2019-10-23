@@ -4,10 +4,15 @@ const express = require("express");
 const exphbs = require("express-handlebars");
 const session = require("express-session");
 
+const redis = require("redis");
+const redisStore = require("connect-redis")(session);
+
+const client = redis.createClient(process.env.REDIS_URL);
+
 const db = require("./models");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+let PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.urlencoded({ extended: false }));
@@ -15,8 +20,14 @@ app.use(express.json());
 app.use(express.static("public"));
 app.use(
   session({
+    name: "sid",
     secret: "keyboard cat",
-    cookie: { secure: true ,maxAge: 60000 },
+    store: new redisStore({
+      client: client
+  }),
+    cookie: {  sameSite: true, maxAge: 6000000 },
+    saveUninitialized: false,
+    resave: false
   })
 );
 
